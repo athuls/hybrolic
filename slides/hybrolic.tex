@@ -51,8 +51,8 @@
   pdftitle={Formal Verification: Projects},
   pdfauthor={Umang Mathur}}
 
-\title{Solving Geometry problems for Checking Reachability in Hybrid Systems}
-\author{Umang mathur \and Atul Sandur}
+\title{Solving Geometry Problems for Analysis of Cyber-Physical Systems}
+\author{Umang Mathur \and Atul Sandur}
   
 
 \institute[CS, UIUC] {\vspace{0.1cm} 
@@ -61,7 +61,6 @@
 
   
 \date{\today}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%    Main Body
@@ -75,6 +74,27 @@
 \tableofcontents}
 
 \section{Introduction}
+ \frame{
+  \frametitle{Cyber-Physical Systems (CPS)}
+  \begin{itemize}
+    \item Cyber-Physical systems are engineered systems that depend upon the integration of
+        \begin{itemize}
+            \item computational algorithms, and 
+            \item physical components 
+        \end{itemize}
+    \vspace{0.25in}
+    \item Diverse applications:
+        \begin{itemize}
+            \item Healthcare
+            \item Aerospace, Aeronautics
+            \item Chemical processes
+            \item Transportation
+            \item Energy sector
+        \end{itemize}
+  \end{itemize}
+}
+   
+
 \frame{
   \frametitle{Cyber-Physical Systems (CPS)}
   \begin{center}
@@ -83,7 +103,7 @@
 }
 
 \frame{
-  \frametitle{Verification/Synthesis with Hybrid Automata}
+  \frametitle{Hybrid Automata: Modelling, Analysis and Synthesis of CPS}
   \begin{itemize}
   \item
     Introduced by Alur et al. to model hybrid systems
@@ -98,107 +118,121 @@
     \item 
       \blue{Initialized Rectangular Hybrid automata} ({\footnotesize Henzinger
         et al.}), 
-    \item 
-      \blue{Multi-Mode Systems} ({\footnotesize Alur, Trivedi, Wojtczak})   
+ %   \item 
+ %     \blue{Multi-Mode Systems} ({\footnotesize Alur, Trivedi, Wojtczak})   
     \end{itemize}
-  \item 
-    \blue{Tool support}: \textsc{HyTech}, \textsc{PHAV}er, \textsc{Uppaal}
+    \item Most verification techniques rely on exhaustive exploration of state space using finite bisimulations
+%  \item 
+ %   \blue{Tool support}: \textsc{HyTech}, \textsc{PHAV}er, \textsc{Uppaal}
   \end{itemize}
   \pause
     \input{example-temp-control} 
 }
 
-
-\section{Multi-Mode Systems}
+\section{Verification and Testing of Hybrid Automata}
 \frame{\tableofcontentscurrent}
 
 \frame{
-  \frametitle{Green Scheduling}
-  \begin{itemize}
-  	\item  Synthesizing controllers for maintaining temperatures of 2 rooms.
-  	\item Minimizing peak energy usage
-  \end{itemize}
-  \begin{center}
-    \scalebox{0.8}{\input{CoolEx25}}
-  \end{center}
-  
-  \vfill
+  \frametitle{Reachability in Hybrid Systems}
+  Safety Critical Systems :
+    \begin{itemize}
+        \item Nuclear reactors
+        \item Chemical plants
+        \item Aeronautics/Automobiles
+    \end{itemize}
+    It is therefore important to have certain safety guarantees for such systems
 
-  \blue{Safe Schedulability Problem:} Does there exist a \blue{switching schedule} using these \blue{modes}
-    such that the temperatures stay in \blue{comfortable region}? 
+    \vspace{0.2in}
+    Checking reachability of certain states, thus, is a natural question to ask
+    \begin{itemize}
+        \item Can reach some error state ?
+        \item How to reach ?
+            \begin{itemize}
+                \item input ?
+                \item path ? (non-determinism)
+            \end{itemize}
+    \end{itemize}
+
+    \vspace{0.2in}
+    Other interesting applications:
+    \begin{itemize}
+        \item Motion planning
+    \end{itemize}
+        
+%%  \begin{center}
+%%    \scalebox{0.8}{\input{CoolEx25}}
+%%  \end{center}
+%%  
+%%  \vfill
+%%
+%%  \blue{Safe Schedulability Problem:} Does there exist a \blue{switching schedule} using these \blue{modes}
+%%    such that the temperatures stay in \blue{comfortable region}? 
+}
+
+\subsection{Example}
+
+\frame{
+    \frametitle{Robotic Motion Planning}
+    
+    \vspace{-0.2in}
+    \input{cmms.tex}
+
+    \begin{itemize}
+        \item Can a bot enter $o4$ starting from some point in region $o1$ 
+    \end{itemize}
 }
 
 
+\section{Singular Hybrid Automata: Syntax and Semantics}
 
 \frame{
-  \frametitle{Multi-mode Systems: Safe Schedulability}
-  \begin{center}
-    \scalebox{0.8}{
-      \input{CoolEx3}
-    }
-    
-   Safe set: $ T_1 \in [19, 24], T_2 \in [19, 24]$
-  \end{center}
-  
-  \begin{tikzpicture}[node distance=1cm]
-    
-    \node[stloc, label=left:$\begin{matrix} x\\y\end{matrix}$,
-    label=below:$s_0$] (s0) at (0,0) {$\begin{matrix} 22 \\ 22 \end{matrix}$};
-    \pause
-    \node[stloc, label=below:$s_1$] (s1) at (2,0) {$\begin{matrix} 21 \\ 21
-      \end{matrix}$};  
-    \draw[trans](s0) --node[midway,above]{$ (m_2, 1)$}  (s1);
-    
-    \pause
-    \node[stloc, label=below:$s_2$] (s2) at (4,0) {$\begin{matrix} 20 \\ 24
-      \end{matrix}$};  
-    \draw[trans](s1) --node[midway,above]{$ (m_3, 1)$}  (s2);
-    
-    \pause
-    \node[stloc, label=below:$s_3$] (s3) at (6,0) {$\begin{matrix} 22 \\ 22
-      \end{matrix}$};  
-    \draw[trans](s2) --node[midway,above]{$ (m_4, 1)$}  (s3);
-    \pause
-    \node[stloc, label=below:$s_4$] (s4) at (8,0) {$\begin{matrix} 21 \\ 21
-      \end{matrix}$};  
-    \draw[trans](s3) --node[midway,above]{$ (m_2, 1)$}  (s4);
-    \draw[trans](s4) --node[midway,above]{$ \cdots$}  (10,0) ;
-    
-  \end{tikzpicture}
+	\frametitle{Syntax of SHA}
+	A singular hybrid automaton is a tuple \blue{$\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$}
+	where
+	\begin{itemize}
+		\item $M$ is a finite set of control {\color{blue}{modes}} and $M_0 \subseteq M$, 
+		\item $\Sigma$ is a finite set of {\color{blue}actions},
+		\item $X$ is an (ordered) set of {\color{blue}variables}, 
+		\item $\Delta \subseteq M \times \poly(X) \times \Sigma \times 2^{X} \times M$ is the {\color{blue}transition relation}, 
+		\item $I: M \to \poly(X)$  is the {\color{blue}mode-invariant} function, and
+		\item $F: M \to \Rat^{|X|}$ is the mode-dependent {\color{blue}flow function} characterizing the rate of each variable in each mode.
+	\end{itemize}
+	
 }
 
 \frame{
-  \frametitle{Multi-mode Systems: Zeno schedule}
-  \begin{center}
-    \scalebox{0.8}{
-      \input{CoolEx25}
-    }
-    
-    Safe set: $ T_1 \in [19, 24], T_2 \in [19, 24]$
-  \end{center}
-  
-  \begin{tikzpicture}[node distance=1cm]
-    
-    \node[stloc, label=left:$\begin{matrix} x\\y\end{matrix}$,
-    label=below:$s_0$] (s0) at (0,0) {$\begin{matrix} 22 \\ 22 \end{matrix}$};
-    \node[stloc, label=below:$s_1$] (s1) at (2,0) {$\begin{matrix} 22 \\ 22
-      \end{matrix}$};  
-    \draw[trans](s0) --node[midway,above]{$ (m_2, 0)$}  (s1);
-    
-    \node[stloc, label=below:$s_2$] (s2) at (4,0) {$\begin{matrix} 22 \\ 22
-      \end{matrix}$};  
-    \draw[trans](s1) --node[midway,above]{$ (m_3, 0)$}  (s2);
-    
-    \node[stloc, label=below:$s_3$] (s3) at (6,0) {$\begin{matrix} 22 \\ 22
-      \end{matrix}$};  
-    \draw[trans](s2) --node[midway,above]{$ (m_4, 0)$}  (s3);
-    \node[stloc, label=below:$s_4$] (s4) at (8,0) {$\begin{matrix} 22 \\ 22
-      \end{matrix}$};  
-    \draw[trans](s3) --node[midway,above]{$ (m_2, 0)$}  (s4);
-    \draw[trans](s4) --node[midway,above]{$ \cdots$}  (10,0) ;
-    
-  \end{tikzpicture}\\
-  Zeno Schedule
+	\frametitle{Semantics of WSHA}
+	\begin{itemize}
+	\item A \blue{configuration} $(m, \nu)$ and a \blue{timed action} $(t, a)$ 
+	\item A \blue{transition} $((m, \nu) (t, a) (m', \nu'))$
+	\begin{itemize}
+		\item time elapse of $t$ in mode $m$ starting from $\nu$, followed by discrete step $a$
+		\item guards, resets, invariants
+	\end{itemize} 
+	\item A \blue{run} is a sequence of transitions $(m_0, \nu_0) (t_1, a_1)
+	(m_1, \nu_1) (t_2, a_2) \cdots$
+	\end{itemize}
+	
+	\pause
+
+	\begin{itemize}
+	\item \blue{Type} $\Gamma(r)$ of a finite run 
+	$r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), \ldots, (m_k, \nu_k)}$
+	is a sequence 
+	$\seq{n_0, b_1,  n_1,\ldots, b_p, n_p}$ defined as: 
+	\begin{eqnarray*}
+	  \Gamma(r) = 
+	\begin{cases}
+	  \seq{\varrho(m_0)} & \text{ if $r = \seq{(m_0, \nu_0)}$}\\
+	  \Gamma(r') \oplus (a, \varrho(m)) & \text{ if $r = r'::\seq{(t, a), (m, \nu)}$},
+	\end{cases}
+	\end{eqnarray*}  
+
+	\pause
+
+	\item Any run (finite/infinite) will only have a \blue{finite run type}: there are only finitely many connected components,
+	all sharing a partial order
+	\end{itemize}
 }
 
 
