@@ -1,0 +1,620 @@
+\documentclass[9pt]{beamer}
+\usepackage{etex}
+\usepackage{pres}
+\usepackage{gensymb}
+
+\makeatletter
+\newif\if@restonecol
+\makeatother
+\let\algorithm\relax
+\let\endalgorithm\relax
+\usepackage[ruled,vlined,linesnumbered,lined]{algorithm2e}
+
+\usefonttheme[onlymath]{serif}
+
+\newcommand{\sseq}[1]{{\color{blue}\seq{#1}}}
+
+\newcommand{\poly}{\textrm{poly}}
+\newcommand{\Rat}{\mathbb{Q}}
+
+\providecommand{\DontPrintSemicolon}{\dontprintsemicolon}
+
+\pgfdeclareimage[width=6cm]{cps}{cps}
+\pgfdeclareimage[width=6cm]{wsha}{wsha}
+\pgfdeclareimage[width=6cm]{hybridA}{hybridAutomata}
+
+
+\pgfdeclareimage[width=4cm]{hvac}{hvacs}
+\pgfdeclareimage[width=3.1cm]{batt1}{batt}
+\pgfdeclareimage[width=3.1cm]{batt2}{base}
+\pgfdeclareimage[width=3.1cm]{batt3}{peak}
+
+\pgfdeclareimage[width=11cm]{caro}{car}
+
+\pgfdeclareimage[width=6cm]{geom1}{geom1}
+\pgfdeclareimage[width=6cm]{geom2}{geom2}
+\pgfdeclareimage[width=6cm]{geom3}{geom3}
+\pgfdeclareimage[width=6cm]{geom4}{geom4}
+\pgfdeclareimage[width=6cm]{geom5}{geom5}
+\pgfdeclareimage[width=6cm]{geom6}{geom6}
+\pgfdeclareimage[width=6cm]{geom7}{geom7}
+
+\pgfdeclareimage[width=12cm]{bnd1}{boundarySch}
+\pgfdeclareimage[width=12cm]{bnd2}{boundarySch1}
+\pgfdeclareimage[width=12cm]{bnd3}{boundarySch2}
+\pgfdeclareimage[width=12cm]{bnd4}{boundarySch3}
+
+\pgfdeclareimage[width=4cm]{thumbreach}{thumbreach}
+
+
+\hypersetup{
+  pdftitle={Formal Verification: Projects},
+  pdfauthor={Umang Mathur}}
+
+\title{Solving Geometry problems for Checking Reachability in Hybrid Systems}
+\author{Umang mathur \and Atul Sandur}
+  
+
+\institute[CS, UIUC] {\vspace{0.1cm} 
+  Department of Computer Science\\
+  University of Illinois, Urbana Champaign} 
+
+  
+\date{\today}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%    Main Body
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\frame{\titlepage}
+
+\frame{\frametitle{Outline}
+\tableofcontents}
+
+\section{Introduction}
+\frame{
+  \frametitle{Cyber-Physical Systems (CPS)}
+  \begin{center}
+    \pgfuseimage{cps} 
+  \end{center}
+}
+
+\frame{
+  \frametitle{Verification/Synthesis with Hybrid Automata}
+  \begin{itemize}
+  \item
+    Introduced by Alur et al. to model hybrid systems
+  \item
+    Quite expressive, but \blue{undecidable} verification (reachability)
+    problems  
+  \item
+    Decidable subclasses exists, e.g.
+    \begin{itemize}
+    \item 
+      \blue{Timed Automata} ({\footnotesize Alur, and Dill}),
+    \item 
+      \blue{Initialized Rectangular Hybrid automata} ({\footnotesize Henzinger
+        et al.}), 
+    \item 
+      \blue{Multi-Mode Systems} ({\footnotesize Alur, Trivedi, Wojtczak})   
+    \end{itemize}
+  \item 
+    \blue{Tool support}: \textsc{HyTech}, \textsc{PHAV}er, \textsc{Uppaal}
+  \end{itemize}
+  \pause
+    \input{example-temp-control} 
+}
+
+
+\section{Multi-Mode Systems}
+\frame{\tableofcontentscurrent}
+
+\frame{
+  \frametitle{Green Scheduling}
+  \begin{itemize}
+  	\item  Synthesizing controllers for maintaining temperatures of 2 rooms.
+  	\item Minimizing peak energy usage
+  \end{itemize}
+  \begin{center}
+    \scalebox{0.8}{\input{CoolEx25}}
+  \end{center}
+  
+  \vfill
+
+  \blue{Safe Schedulability Problem:} Does there exist a \blue{switching schedule} using these \blue{modes}
+    such that the temperatures stay in \blue{comfortable region}? 
+}
+
+
+
+\frame{
+  \frametitle{Multi-mode Systems: Safe Schedulability}
+  \begin{center}
+    \scalebox{0.8}{
+      \input{CoolEx3}
+    }
+    
+   Safe set: $ T_1 \in [19, 24], T_2 \in [19, 24]$
+  \end{center}
+  
+  \begin{tikzpicture}[node distance=1cm]
+    
+    \node[stloc, label=left:$\begin{matrix} x\\y\end{matrix}$,
+    label=below:$s_0$] (s0) at (0,0) {$\begin{matrix} 22 \\ 22 \end{matrix}$};
+    \pause
+    \node[stloc, label=below:$s_1$] (s1) at (2,0) {$\begin{matrix} 21 \\ 21
+      \end{matrix}$};  
+    \draw[trans](s0) --node[midway,above]{$ (m_2, 1)$}  (s1);
+    
+    \pause
+    \node[stloc, label=below:$s_2$] (s2) at (4,0) {$\begin{matrix} 20 \\ 24
+      \end{matrix}$};  
+    \draw[trans](s1) --node[midway,above]{$ (m_3, 1)$}  (s2);
+    
+    \pause
+    \node[stloc, label=below:$s_3$] (s3) at (6,0) {$\begin{matrix} 22 \\ 22
+      \end{matrix}$};  
+    \draw[trans](s2) --node[midway,above]{$ (m_4, 1)$}  (s3);
+    \pause
+    \node[stloc, label=below:$s_4$] (s4) at (8,0) {$\begin{matrix} 21 \\ 21
+      \end{matrix}$};  
+    \draw[trans](s3) --node[midway,above]{$ (m_2, 1)$}  (s4);
+    \draw[trans](s4) --node[midway,above]{$ \cdots$}  (10,0) ;
+    
+  \end{tikzpicture}
+}
+
+\frame{
+  \frametitle{Multi-mode Systems: Zeno schedule}
+  \begin{center}
+    \scalebox{0.8}{
+      \input{CoolEx25}
+    }
+    
+    Safe set: $ T_1 \in [19, 24], T_2 \in [19, 24]$
+  \end{center}
+  
+  \begin{tikzpicture}[node distance=1cm]
+    
+    \node[stloc, label=left:$\begin{matrix} x\\y\end{matrix}$,
+    label=below:$s_0$] (s0) at (0,0) {$\begin{matrix} 22 \\ 22 \end{matrix}$};
+    \node[stloc, label=below:$s_1$] (s1) at (2,0) {$\begin{matrix} 22 \\ 22
+      \end{matrix}$};  
+    \draw[trans](s0) --node[midway,above]{$ (m_2, 0)$}  (s1);
+    
+    \node[stloc, label=below:$s_2$] (s2) at (4,0) {$\begin{matrix} 22 \\ 22
+      \end{matrix}$};  
+    \draw[trans](s1) --node[midway,above]{$ (m_3, 0)$}  (s2);
+    
+    \node[stloc, label=below:$s_3$] (s3) at (6,0) {$\begin{matrix} 22 \\ 22
+      \end{matrix}$};  
+    \draw[trans](s2) --node[midway,above]{$ (m_4, 0)$}  (s3);
+    \node[stloc, label=below:$s_4$] (s4) at (8,0) {$\begin{matrix} 22 \\ 22
+      \end{matrix}$};  
+    \draw[trans](s3) --node[midway,above]{$ (m_2, 0)$}  (s4);
+    \draw[trans](s4) --node[midway,above]{$ \cdots$}  (10,0) ;
+    
+  \end{tikzpicture}\\
+  Zeno Schedule
+}
+
+
+
+\frame{
+  \frametitle{Formal Definitions}
+  \begin{definition}[Constant-Rate Multi-Mode Systems: CMS]
+    A CMS is a tuple $\Hh = (M, n, R)$
+    where 
+    \begin{itemize}
+    \item $M$ is a finite nonempty set of \blue{modes}, 
+    \item $n$ is the number of \blue{continuous variables}, 
+    \item $R: M \to \Real^n$ gives for each mode
+      the \blue{rate vector},
+    \item $S \subseteq \Real^n$ is a \blue{bounded convex} set of \blue{safe states}.  
+    \end{itemize}
+  \end{definition}      
+  \vfill
+  \frametitle{Definition}
+  \begin{block}{Safe Schedulability Problem}
+    Given a \blue{multi-mode system} and a starting state,  decide whether there
+    exists a \blue{non-Zeno safe schedule}.
+  \end{block}
+ % \pause
+  \begin{block}{Safe Reachability Problem}
+    Given a \blue{multi-mode system},  a \blue{starting state} and a \blue{target
+      state}, decide whether there exists a safe schedule from starting
+    state to target state.
+  \end{block}
+}
+
+\frame{
+  \frametitle{Key Results}
+
+  \begin{theorem}[Alur et. al., 2011]
+      Safe schedulability can be solved in \blue{polynomial time}. 
+  \end{theorem}
+  
+  \begin{theorem}[Alur et. al., 2011]
+      Safe reachability problem can be solved in \blue{polynomial time} if both
+      starting and target states are in the interior of safety set.
+  \end{theorem}
+  
+  \vspace{0.4in}
+  Both the problems essentially boil down to solving a \blue{linear program} polynomial in size of the inputs.
+  %Remark: 
+  %A very special subclass of Hybrid automata, but the problems we consider
+  %are \blue{undecidable} for Hybrid automata.
+}
+
+
+
+\frame{
+  \frametitle{Safe Schedulability Problem}
+  \begin{theorem}[Alur et. al]
+    Assume that the starting state lies in the \blue{interior} of the safety set.  \\   
+    
+    A safe \blue{non-Zeno} schedule exists if and only if
+    \begin{eqnarray*}
+      \sum_{i=1}^{|M|} R(i) \cdot f_i &=& 0\\
+      \sum_{i=1}^{|M|} f_i &=& 1.
+    \end{eqnarray*}
+    for some $f_1, f_2, \ldots, f_{|M|} \geq 0$.
+
+    Moreover, such a schedule is \blue{periodic}.
+  \end{theorem}
+}
+
+\frame{
+  \frametitle{Safe Reachability Problem}
+  \begin{theorem}[Alur et. al]
+    Assume that the \blue{starting} state $s_0$ and the \blue{target} state
+    $s_t$ lie in the \blue{interior} of the safety set. 
+    
+    A safe schedule exists from $s_0$ to $s_t$ exists if and only if 
+    \begin{eqnarray*}
+      s_0 + \sum_{i=1}^{|M|}  R(i) \cdot t_i  = s_t 
+    \end{eqnarray*}
+    for some  $t_1, t_2, \ldots, t_{|M|} \geq 0$. 
+  \end{theorem}
+}
+
+\frame{
+  \frametitle{Points to Remember: Schedulability}
+  \begin{columns}
+    \column{2in}
+    The following is \blue{feasible}:
+    \[    
+    \sum_{i=1}^{|M|} R(i) \cdot f_i = 0  \text{ and  }\sum_{i=1}^{|M|} f_i = 1
+    \]    
+    Or, the following in \blue{infeasible}:
+    \[
+    (v_1, v_2, \ldots, v_n) \cdot R(i) > 0 \text{ for all modes $i$}.
+    \]    
+    \column{2in}
+    \only<1>{\input{energypeak}}
+    \only<2>{\input{infpeak}}
+  \end{columns}
+}
+
+\frame{
+  \frametitle{Points to Remember: Reachability}
+  \begin{columns}
+    \column{2in}
+    The following is \blue{feasible}:
+    \[    
+    s_0 + \sum_{i=1}^{|M|}  R(i) \cdot t_i  = s_t 
+    \]    
+    \column{2in}
+    \pgfuseimage{thumbreach}
+  \end{columns}
+}
+
+
+
+
+\section{Weak Singular Hybrid Automata}
+ \frame{\tableofcontentscurrent}
+
+\frame{
+	\frametitle{Motivation}
+	\begin{center}
+		\pgfuseimage{wsha}
+	\end{center}
+	
+	\begin{itemize}
+	\item Restricted mode switching
+	\item Non-convex safety sets
+	\item Decidable reachability (NP-complete), schedulability (NP-Complete), and
+	LTL model-checking (PSPACE-complete) problems 
+	\end{itemize}
+}
+
+\subsection{Example}
+
+\frame{
+    \frametitle{Robotic Motion Planning}
+    
+    \input{cmms.tex}
+}
+
+\frame{
+    \frametitle{Robotic Motion Planning}
+    
+    \input{cmms-annot.tex}
+}
+
+\frame{
+    \frametitle{WSHA: Robotic Motion Planning}
+    
+    \input{wshafig.tex}
+}
+
+\subsection{Syntax and Semantics}
+
+\frame{
+	\frametitle{Syntax of WSHA}
+	A weak singular hybrid automaton is a tuple \blue{$\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$}
+	where
+	\begin{itemize}
+		\item $M$ is a finite set of control {\color{blue}{modes}} and $M_0 \subseteq M$, 
+		\item $\Sigma$ is a finite set of {\color{blue}actions},
+		\item $X$ is an (ordered) set of {\color{blue}variables}, 
+		\item $\Delta \subseteq M \times \poly(X) \times \Sigma \times 2^{X} \times M$ is the {\color{blue}transition relation}, 
+		\item $I: M \to \poly(X)$  is the {\color{blue}mode-invariant} function, and
+		\item $F: M \to \Rat^{|X|}$ is the mode-dependent {\color{blue}flow function} characterizing the rate of each variable in each mode.
+	\end{itemize}
+	
+	\pause
+	\vspace{0.2in}
+	Function \blue{$\varrho: M \rightarrow \Nat$} assigning \blue{ranks} to the modes such that
+	\begin{itemize}
+		\item for every transition $(m, G, a, R, m') \in \Delta$, \blue{$\varrho(m) \leq \varrho(m')$}, and 
+		\item for every rank $i$ the set of modes with rank $i$
+		\begin{itemize}
+			\item has a \blue{common safety set $S_i$} which is a bounded and open polytope (\blue{problems with boundaries})
+			\item is \blue{strongly connected} with no resets or guards
+		\end{itemize}
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Semantics of WSHA}
+	\begin{itemize}
+	\item A \blue{configuration} $(m, \nu)$ and a \blue{timed action} $(t, a)$ 
+	\item A \blue{transition} $((m, \nu) (t, a) (m', \nu'))$
+	\begin{itemize}
+		\item time elapse of $t$ in mode $m$ starting from $\nu$, followed by discrete step $a$
+		\item guards, resets, invariants
+	\end{itemize} 
+	\item A \blue{run} is a sequence of transitions $(m_0, \nu_0) (t_1, a_1)
+	(m_1, \nu_1) (t_2, a_2) \cdots$
+	\end{itemize}
+	
+	\pause
+
+	\begin{itemize}
+	\item \blue{Type} $\Gamma(r)$ of a finite run 
+	$r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), \ldots, (m_k, \nu_k)}$
+	is a sequence 
+	$\seq{n_0, b_1,  n_1,\ldots, b_p, n_p}$ defined as: 
+	\begin{eqnarray*}
+	  \Gamma(r) = 
+	\begin{cases}
+	  \seq{\varrho(m_0)} & \text{ if $r = \seq{(m_0, \nu_0)}$}\\
+	  \Gamma(r') \oplus (a, \varrho(m)) & \text{ if $r = r'::\seq{(t, a), (m, \nu)}$},
+	\end{cases}
+	\end{eqnarray*}  
+
+	\pause
+
+	\item Any run (finite/infinite) will only have a \blue{finite run type}: there are only finitely many connected components,
+	all sharing a partial order
+	\end{itemize}
+}
+
+
+
+\subsection{Reachability and Schedulability}
+
+\frame{
+	\frametitle{Reachability and Schedulability}
+	
+	\begin{theorem}
+	  The reachability and schedulability problems for weak singular hybrid automata are NP-complete.
+	\end{theorem}
+	
+	\begin{itemize}
+		\item NP Hardness: \pause Reduction from Subset-sum problem (Reachability) .\pause
+		\begin{figure}[t]
+			\begin{center}
+				\scalebox{0.5}{
+					\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.8cm, semithick]
+						\tikzstyle{every state}=[fill=black!30!white,minimum size=3em,rounded rectangle]
+						\node[state] at (1.7,1.5) (A0) {$\begin{array}{c}m_0 \\ (1,1,2,-3,0,0) \end{array}$} ;
+						\node[state] at (0,0) (A1) {$\begin{array}{c}m_1 \\ (0,-1,0,0,1,1) \end{array}$} ;
+						\node[state] at (0,-2) (B1) {$\begin{array}{c}m_3 \\ (0,0,-2,0,2,1) \end{array}$} ;
+						\node[state] at (0,-4) (B2) {$\begin{array}{c}m_5 \\ (0,0,0,3,-3,1) \end{array}$} ;
+						\node[state] at (4,0) (A) {$\begin{array}{c} m_2 \\ (0,-1,0,0,0,0) \end{array}$} ;
+						\node[state] at (4,-2) (B) {$\begin{array}{c} m_4 \\ (0,0,-2,0,0,0) \end{array}$} ;
+						\node[state] at (4,-4) (C) {$\begin{array}{c} m_6 \\ (0,0,0,3,0,0) \end{array}$} ;
+
+						\path (A0) edge node [above]{} (A);
+						\path (A0) edge node [above]{} (A1);
+						\path (A1) edge node [above]{} (B);
+						\path (A1) edge node [above]{} (B1);
+						\path (A) edge node [above]{} (B);
+						\path (A) edge node [above]{} (B1);
+						\path (B1) edge node [above]{} (B2);
+						\path (B1) edge node [above]{} (C);
+						\path (B) edge node [above]{} (B2);
+						\path (B) edge node [above]{} (C);
+						
+						%\node at (0,-5) (TEXT) {$\nu_0 = \vzero$, Target = ($1, [1,3], [1,3], [1,3]$, sum, $[1,3]$)};
+					 \end{tikzpicture}
+				}
+				\caption{Constructed WSHA for set $\{1,2,-3\}$}
+				\label{nphard}
+			\end{center}
+		\end{figure}
+		\pause
+		\item Schedulability: Reachability to the last strongly connected component and multi-mode scheduling there
+	\end{itemize}
+
+}
+
+\frame{
+	\frametitle{Reachability and Schedulability}
+	
+	\begin{itemize}
+		\item NP-Membership: \pause
+			\begin{itemize}
+				\item All run-types are polynomial in size of the WSHA. \pause
+				\item Checking whether a run type $\sigma = \seq{n_0, b_1, n_1, \ldots, b_p, n_p}$ is reachable/schedulable
+				amounts to checking the feasibility of a linear program ($\nu_{n_i}, \nu_{n_i}' \in \Real^{|X|}$ and  $t_i^m \in \Rplus$ are variables): \pause
+				\begin{flushleft}
+					\scalebox{0.8}{
+					\begin{columns}[t]
+					\begin{column}{0.55\textwidth}
+						\begin{eqnarray}
+							\nu_0 &=& \nu_{n_0} \nonumber \\
+							\nu_{n_p}' & \in & \Tt \nonumber\\
+							\nu_{n_i}, \nu_{n_i}'  & \in & S_{M_{n_i}} \text{ for all $0 \leq i \leq p$} 
+							\nonumber \\
+							\nu_{n_i}   & \in & G(b_i) \text{ for all $0 < i \leq p$}
+							\nonumber \\
+							\nu_{n_{i+1}}(j) &=& 0 \text{ for all $x_j \in R(b_{i+1})$} \nonumber\\ & &\text{and }  0 < i \leq p
+							\nonumber \\
+							\nu_{n_{i+1}}(j) &=& \nu_{n_i}'(j)  \text{ for all} x_j \not \in R(b_{i+1}) \nonumber\\ & & \text{and } 0 < i \leq p
+							\nonumber \\
+							\nu_{n_i}'  & = & \nu_{n_i} + \sum_{m \in M_{n_i}} F(m) \cdot t_i^m \nonumber\\
+							& &\text{ for all $0 \leq i \leq p$}\nonumber\\% \label{eqn-wsha-reach}\\
+							t_i^m  &\geq&  0 \text{ for all $0 \leq i \leq p$ and  $m \in M_{n_i}$} \nonumber
+						\end{eqnarray}
+						\newline
+						\\[2.4pt]
+						{\large Linear program for Reachability}
+					\end{column}
+					\pause
+					\begin{column}{0.6\textwidth}
+						\begin{eqnarray}
+							\nu_0 &=& \nu_{n_0} \nonumber \\
+							\nu_{n_i}, \nu_{n_i}'  & \in & S_{M_{n_i}} \text{ for all $0 \leq i \leq p$}
+							\nonumber \\
+							\nu_{n_i}   & \in & G(b_i) \text{ for all $0 < i \leq p$}
+							\nonumber \\
+							\nu_{n_{i+1}}(j) &=& 0  \text{ for all $x_j \in R(b_{i+1})$ and  $0 < i \leq p$}
+							\nonumber \\
+							\nu_{n_{i+1}}(j) &=& \nu_{n_i}'(j)  \text{ for all $x_j \not \in R(b_{i+1})$ and  $0 < i \leq p$}
+							\nonumber \\
+							\nu_{n_i}'  & = & \nu_{n_i} + \sum_{m \in M_{n_i}} F(m) \cdot t_i^m \text{
+							for all $0 \leq i \leq p$} \nonumber\\%\label{eqn:wsha-sched}\\
+							t_i^m  &\geq&  0 \text{ for all $0 \leq i \leq p$ and $m \in M_{n_i}$} \nonumber\\ 
+							\vzero &=& \sum_{m \in M_{n_p}} F(m) \cdot t_p^m  \nonumber\\
+							1 &=& \sum_{m \in M_{n_p}} t_p^m \nonumber
+						\end{eqnarray}
+						\newline
+						\\[1pt]
+						{\large Linear program for Schedulability}
+					\end{column}
+				\end{columns}
+				}
+				\end{flushleft}
+				
+				
+			\end{itemize}
+	\end{itemize}
+}
+
+\subsection{Temporal Logic Model Checking}
+
+\frame{
+	\frametitle{Temporal Logic Model Checking}
+	
+	LTL Model Checking: Just the best !
+	\begin{theorem}
+		The LTL model-checking problem for WSHA is PSPACE-complete.
+	\end{theorem}
+	\pause
+	\begin{itemize}
+		\item LTL property $\phi$ $\to$ B\"uchi automata $\Aa_{\neg \phi}$ 
+		\item Product of a WSHA $\Hh$ and $\Aa_{\neg \phi}$ remains
+		WSHA (since variables occur only in the WSHA component).  
+		\item Standard polynomial space algorithm can be used. 
+		\item PSPACE-hardness of the problem follows from PSPACE-completeness of LTL model checking over a finite automaton
+	\end{itemize}
+	\vspace{0.2in}
+	\pause
+	CTL Model Checking: Not so easy !
+	\begin{theorem}
+		CTL model checking of weak SHAs with two variables is PSPACE-hard. 
+	\end{theorem}
+	\pause
+	\begin{itemize}
+		\item Polynomial reduction from subset-sum games
+		\item Decidability: \blue{still open}
+	\end{itemize}
+}
+\subsection{Extending WSHA}
+
+\frame{
+	\frametitle{WSHAs are JUST Decidable}
+	WSHA is on the forefronts of decidability. Tweaking the model in the hope to improve expressiveness
+	can lead to undecidability !
+
+	\pause
+
+	\begin{theorem}
+		The reachability problem is undecidable for three variable WSHAs with discrete
+		updates. 
+	\end{theorem}
+	 
+	\pause 
+	\begin{theorem}
+		The reachability problem is undecidable for CMS with two variables and one
+		unrestricted clock. 
+	\end{theorem}
+}
+
+\section{Summary}
+
+\frame{
+	\frametitle{Summary and Future Work}
+	\begin{itemize}
+		\item WSHAs as a subclass of Hybrid automata. \pause
+		\item Efficient model : Reachability, Schedulability and LTL Model Checking are Decidable \pause
+		\item Slight extensions can lead to undecidability in results
+	\end{itemize}
+
+	\pause
+	\begin{itemize}
+		\item Future work
+		\begin{itemize}
+			\item Decidability of CTL Model Checking for this problem is still unsolved
+			\item Games on WSHA and restrictions on WSHA
+			\item CEGAR framework : Approximate modeling of undecidable subclasses of hybrid automata using WSHA (Ongoing)
+		\end{itemize}
+	\end{itemize}
+}
+
+\frame{
+\frametitle{}
+	\begin{center}
+
+        \font\endfont = cmss9 at 15.40mm
+        \endfont 
+        \baselineskip 20.0mm
+
+        Thank You !
+
+      \end{center}    
+}
+
+\nocite{*}
+
+\bibliographystyle{plain}
+\bibliography{papers}
+
+\end{document}

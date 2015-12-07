@@ -1,0 +1,704 @@
+\documentclass[xcolor={dvipsnames}, 9pt]{beamer}
+\usepackage{pres}
+
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+% You can uncomment the themes below if you would like to use a different
+% one:
+%\usetheme{AnnArbor}
+
+%\usetheme{CambridgeUS}
+%\setbeamercolor{item projected}{bg=darkred}
+%\setbeamertemplate{enumerate items}[default]
+%\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercolor{block title}{fg=darkred}
+%\setbeamercolor{local structure}{fg=darkred}
+
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%%%\usetheme{Boadilla}
+%\usetheme{boxes}
+%%%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{default}
+%%%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%%\usetheme{Rochester}
+%%\usetheme{Singapore}
+%%\usetheme{Szeged}
+%\usetheme{Warsaw}
+\input{header}
+
+%\setbeamercolor{normal text}{bg=green}
+
+\title{Weak Singular Hybrid Automata}
+
+% A subtitle is optional and this may be deleted
+\subtitle{Stronger than Singular Hybrid Automata}
+
+\author{Krishna S. \and Umang Mathur \and Ashutosh Trivedi}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[Indian Institute of Tchnology] % (optional, but mostly needed)
+{
+  Department of Computer Science and Engineering\\
+  Indian Institute of Tchnology - Bombay\\
+  Mumbai
+  }
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+
+\date{\today}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+\subject{Theoretical Computer Science}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \logo{\pgfuseimage{university-logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+
+% Let's get started
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+  % You might wish to add the option [pausesections]
+\end{frame}
+
+% Section and subsections will appear in the presentation overview
+% and table of contents.
+\section{Introduction}
+
+\begin{frame}{Hybrid Automata - What and Why?}
+  \begin{itemize}
+  \item {
+    Formalism for modelling cyber-physical systems \pause
+  }
+  \item {
+    Example : Temperature control
+  }
+  \end{itemize}
+  
+  \pause
+  
+	\input{example-temp-control}  
+  
+\end{frame}
+
+% You can reveal the parts of a slide one at a time
+% with the \pause command:
+\begin{frame}{Limitations to Extensions}
+
+\pause
+  \begin{itemize}
+  \item {
+    Theory of Hybrid Automata : powerful, expressive and quite general
+    \pause % The slide will pause after showing the first item
+  }
+  \item{
+  	 But has its own limitations: \pause
+  	 almost every interesting problem {\color{red} {\sc Undecidable}}
+  	 \pause
+  }
+  \item{
+  	Already explored subclasses are \pause
+  		\begin{itemize}
+  			\item either again {\color{magenta} too general} :\pause most problems unsolvable \pause (eg., SHA, PCD systems) \pause
+  			\item or, are {\color{magenta}{too specific}} : \pause cannot model real world problems precisely \pause (eg., TA, CMS) \pause 
+  		\end{itemize}
+  }
+  \item{
+  	Weak Singular Hybrid Automata to the rescue: \pause
+  	\begin{itemize}
+  		\item More {\color{Green} expressive} than cannonical decidable models like TA, CMS \pause
+  		\item Model Checking remains {\color{Green} decidable}
+  	\end{itemize}
+  }
+  % You can also specify when the content should appear
+  % by using <n->:
+  %\item<3-> {
+  %  Third item.
+  %}
+  %\item<4-> {
+  %  Fourth item.
+  %}
+  % or you can use the \uncover command to reveal general
+  % content (not just \items):
+  %\item<5-> {
+   % Fifth item. \uncover<6->{Extra text in the fifth item.}
+  %}
+  \end{itemize}
+\end{frame}
+
+\section{Singular Hybrid Automata : A forever Unclosed Chapter}
+
+\begin{frame}{Singular Hybrid Automata : Syntax and Semantics}
+
+\pause 
+\begin{block}{SHA: Syntax}
+	A singular hybrid automaton is a tuple 
+   $\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$ where 
+  \begin{itemize}
+  \item 
+    $M$ is a finite set of control \emph{modes} and $M_0 \subseteq M$, 
+  \item 
+    $\Sigma$ is a finite set of \emph{actions},
+  \item 
+    $X$ is an (ordered) set of \emph{variables}, 
+  \item
+    $\Delta \subseteq M \times \poly(X) \times \Sigma \times 2^{X}
+    \times M$ is the \emph{transition relation}, 
+  \item 
+    $I: M \to \poly(X)$  is the mode-invariant function, and
+    \item 
+    $F: M \to \Rat^{|X|}$ is the mode-dependent \emph{flow function}
+    characterizing the rate of each variable in each mode.
+  \end{itemize}
+\end{block}
+
+\pause
+
+\begin{itemize}
+\item A configuration $(m, \nu)$ and a timed action $(t, a)$ \pause
+\item A transition $((m, \nu) (t, a) (m', \nu'))$
+\begin{itemize}
+	\item time elapse of $t$ in mode $m$ starting from $\nu$, followed by discrete step $a$
+	\item guards, resets, invariants
+\end{itemize} \pause
+\item A run is a sequence of transitions $(m_0, \nu_0) (t_1, a_1)
+(m_1, \nu_1) (t_2, a_2) \cdots$
+\end{itemize}
+
+\end{frame}
+
+\subsubsection{Reachability and Schedulability in SHA}
+
+\begin{frame}{Reachability and Schedulability}
+
+\pause
+\begin{definition}[Reachability Problem] Given a singular hybrid automaton
+   $\Hh{=} (M, M_0,$ $\Sigma, X, \Delta, I, F)$, a starting valuation $\nu \in
+   \Real^{|X|}$, and a target polytope $\Tt \subseteq \Real^{X}$, the
+   reachability problem, $\Reach(\Hh, \nu,\Tt)$, is to decide whether there
+   exists a finite run from $\nu_0$ to some valuation $\nu' \in \Tt$. 
+ \end{definition}
+ 
+ \pause
+
+ \begin{definition}[Schedulability Problem]
+   Given a singular hybrid automaton $\Hh {=} (M, M_0,$ $\Sigma, X, \Delta, I, F)$
+   and a starting valuation  $\nu \in \Real^{|X|}$, the schedulability problem,
+   $\Sched(\Hh, \nu)$, is to decide whether there exists an infinite non-Zeno run
+   starting from $\nu$.
+ \end{definition}
+ 
+ \pause
+ 
+ \begin{theorem}[Undecidability]
+   \label{thm:SHA-undec-reach}
+   The reachability and the schedulability problems are undecidable for singular
+   hybrid automata with three or more variables. 
+ \end{theorem}
+ 
+\end{frame}
+
+%\subsubsection{Schedulability}
+
+%\begin{frame}{Scedulability Problem}
+%\end{frame}
+
+\subsubsection{Model Checking}
+
+\pause
+\begin{frame}{LTL Model Checking}
+\begin{definition}[Linear Temporal Logic (Syntax)]
+The set of valid LTL formulas over a set $\Pp$ of atomic propositions can be
+  inductively defined as the following:
+\[
+\phi := \top \vert \bot \vert p \in \Pp \vert \neg \phi \vert \phi \lor \phi
+\vert \bigcirc\phi \vert \phi \until \phi
+\]
+\end{definition}
+
+\pause
+
+\begin{definition}[LTL Model-Checking Problem]
+  Given a Kripke singular hybrid automaton $(\Hh, \Pp, L)$ and an LTL formula
+  $\phi$ decide whether $(\Hh, \Pp, L) \models \phi$.
+\end{definition}
+
+\pause
+
+\begin{theorem}
+
+  \label{thm:SHA-undec-ltl}
+
+  LTL Model-checking problem for singular hybrid automata is undecidable for
+  automata with three or more variables.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{CTL Model Checking}
+\pause
+\begin{definition}[Computational Tree Logic (Syntax)]
+The set of valid CTL formulas over a set $\Pp$ of atomic propositions can be
+inductively defined as the following:
+\[
+\phi := \top \vert \bot \vert p \in \Pp \vert \neg \phi \vert \phi \lor \phi
+\vert \A\psi \vert \E\psi
+\]
+\[
+\psi := \bigcirc\phi \vert \phi \until \phi
+\]
+\end{definition}
+
+\pause
+
+\begin{definition}[CTL Model-Checking Problem]
+  Given a Kripke singular hybrid automaton $(\Hh, \Pp, L)$
+  and a CTL formula $\phi$ decide whether $(\Hh, \Pp, L) \models \phi$.
+\end{definition}
+
+\pause
+
+\begin{theorem}
+  \label{thm:ctl-mc-undec}
+  CTL Model-checking problem for singular hybrid automata with two variables is
+  $\UNDEC$. 
+\end{theorem}
+
+\end{frame}
+
+\section{Weak Singular Hybrid Automata}
+
+\subsection{Syntax and Semantics}
+
+\begin{frame}{WSHA: Joy to the World!}
+\pause
+\begin{definition}[Weak Singular Hybrid Automata]
+  A weak singular hybrid automaton $\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$ is
+  a SHA with the restriction 
+  that there is a partition on the set of modes $M$ characterized by a function
+  $\varrho: M \rightarrow \Nat$ assigning \emph{ranks} to the modes such that
+  \begin{itemize}
+  \item  
+    for every transition $(m, G, a, R, m') \in \Delta$ we have that    
+    $\varrho(m) \leq \varrho(m')$, and 
+  \item  
+    for every rank $i$ the set of modes $M_i = \set{m \::\: \varrho(m) = i}$ is
+    such that 
+    \begin{itemize}
+    \item 
+      there is a bounded and open polytope $S_i$, called the safety set of $M_i$,
+      such that  for all modes $m \in M_i$ we have that $I(m) = S_i$; and
+    \item
+      all the modes in $M_i$ form a strongly-connected-component, and for every
+      mode $m, m' \in M_i$ if there is a transition $(m, G, a, R, m') \in \Delta$
+      then $G=\top$, and $R=\emptyset$. 
+    \end{itemize}
+  \end{itemize}
+\end{definition}
+
+\pause
+
+\begin{itemize}
+\item Type $\Gamma(r)$ of a finite run 
+$r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), \ldots, (m_k, \nu_k)}$
+is a sequence 
+$\seq{n_0, b_1,  n_1,\ldots, b_p, n_p}$ defined inductively as: 
+\begin{eqnarray*}
+  \Gamma(r) = 
+\begin{cases}
+  \seq{\varrho(m_0)} & \text{ if $r = \seq{(m_0, \nu_0)}$}\\
+  \Gamma(r') \oplus (a, \varrho(m)) & \text{ if $r = r'::\seq{(t, a), (m, \nu)}$},
+\end{cases}
+\end{eqnarray*}  
+
+%\begin{eqnarray*}
+%\sigma \oplus (a, n) =
+%\begin{cases}
+%\sigma & \text{if $n_p = n$}\\
+%\seq{n_0, b_1, n_1, \ldots, n_p, a, n} & \text{otherwise}
+%\end{cases}
+%\end{eqnarray*}
+
+\pause
+
+\item Type of an infinite run will only be finite, because there are only finitely many connected components,
+all sharing a partial order
+\end{itemize}
+\end{frame}
+
+\subsection{CMS as a sublass: A major motivation}
+
+\begin{frame}{Constant-rate Multi Mode Systems: A sneak-peek}
+\pause
+\begin{definition}[Constant-Rate Multi-Mode Systems]
+  An SHA $\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$ is a \emph{constant-rate
+    multi-mode system} (CMS) if 
+  \begin{itemize}
+  \item 
+    there is a bounded and open polytope  $S$, called the safety set, such that for
+    all modes $m \in M$ we have that $I(m) = S$, and
+  \item 
+    all the modes in  $M$ form a strongly-connected-component, and for every
+    mode $m, m' \in M$ if there is a transition $(m, G, a, R, m') \in \Delta$
+    then $G=\top$, and $R=\emptyset$. 
+  \end{itemize}
+\end{definition}
+
+\pause
+
+\begin{theorem}[Reachability and Schedulability]
+  \label{thm:mms-reach}
+  Given a CMS $\Hh$, a starting valuation $\nu$ and a target polytope $\Tt$
+ both the problems $\Reach(\Hh, \nu, \Tt)$ and $\Sched(\Hh, \nu)$ can be decided in polynomial time.
+\end{theorem}
+
+\pause
+
+Both Schedulability and Reachability can be expressed as a polynomial sized linear program.
+
+\end{frame}
+
+\subsection{Reachability in WSHA}
+
+\begin{frame}{Reachability: A linear Program}
+
+\begin{theorem}
+  \label{thm:wsha-reach-np-hard}
+  The reachability problem for weak singular hybrid automata  is NP-complete.
+\end{theorem}
+
+\pause
+
+\begin{itemize}
+\item NP-Hardness: Reduction from Subset-sum problem. \pause
+\item NP-Membership: 
+\begin{itemize}
+\item All run-types are polynomial in size of the WSHA. \pause
+\item Checking whether a run type $\sigma = \seq{n_0, b_1, n_1, \ldots, b_p, n_p}$ leads 
+the WSHA $\Hh$ from $\nu$ to a convex polytope $\Tt$ if the
+following linear program is feasible: 
+for every $ 0 \leq i \leq p$ and  $m \in M_{n_i}$ there are 
+$\nu_{n_i}, \nu_{n_i}' \in \Real^{|X|}$ and  $t_i^m \in \Rplus$ such that    
+\begin{eqnarray}
+  \nu_0 &=& \nu_{n_0} \nonumber \\
+  \nu_{n_p}' & \in & \Tt \nonumber\\
+  \nu_{n_i}, \nu_{n_i}'  & \in & S_{M_{n_i}} \text{ for all $0 \leq i \leq p$} 
+  \nonumber \\
+  \nu_{n_i}   & \in & G(b_i) \text{ for all $0 < i \leq p$}
+  \nonumber \\
+  \nu_{n_{i+1}}(j) &=& 0 \text{ for all $x_j \in R(b_{i+1})$ and  $0 < i \leq p$}
+  \nonumber \\
+   \nu_{n_{i+1}}(j) &=& \nu_{n_i}'(j)  \text{ for all $x_j \not \in R(b_{i+1})$ and  $0 < i \leq p$}
+  \nonumber \\
+   \nu_{n_i}'  & = & \nu_{n_i} + \sum_{m \in M_{n_i}} F(m) \cdot t_i^m \text{
+     for all $0 \leq i \leq p$}\nonumber\\% \label{eqn-wsha-reach}\\
+  t_i^m  &\geq&  0 \text{ for all $0 \leq i \leq p$ and  $m \in M_{n_i}$} \nonumber
+\end{eqnarray}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Scedulability in WSHA}
+
+\begin{frame}{Schedulability: Yet another Linear Program}
+\pause
+\begin{theorem}
+  \label{thm:wsha-reach-np-hard}
+  The reachability problem for weak singular hybrid automata  is NP-complete.
+\end{theorem}
+
+\pause
+
+\begin{itemize}
+\item NP-Hardness: Reduction from Subset-sum problem.\pause
+\item NP-Membership: 
+\begin{itemize}
+\item All run-types are polynomial in size of the WSHA.
+\item Checking whether a run type $\sigma = \seq{n_0, b_1, n_1, \ldots, b_p, n_p}$ leads 
+the WSHA $\Hh$ from $\nu$ to a convex polytope $\Tt$ if the
+following linear program is feasible: 
+for every $ 0 \leq i \leq p$ and  $m \in M_{n_i}$ there are 
+$\nu_{n_i}, \nu_{n_i}' \in \Real^{|X|}$ and  $t_i^m \in \Rplus$ such that    
+\begin{eqnarray}
+  \nu_0 &=& \nu_{n_0} \nonumber \\
+  \nu_{n_p}' & \in & \Tt \nonumber\\
+  \nu_{n_i}, \nu_{n_i}'  & \in & S_{M_{n_i}} \text{ for all $0 \leq i \leq p$} 
+  \nonumber \\
+  \nu_{n_i}   & \in & G(b_i) \text{ for all $0 < i \leq p$}
+  \nonumber \\
+  \nu_{n_{i+1}}(j) &=& 0 \text{ for all $x_j \in R(b_{i+1})$ and  $0 < i \leq p$}
+  \nonumber \\
+   \nu_{n_{i+1}}(j) &=& \nu_{n_i}'(j)  \text{ for all $x_j \not \in R(b_{i+1})$ and  $0 < i \leq p$}
+  \nonumber \\
+   \nu_{n_i}'  & = & \nu_{n_i} + \sum_{m \in M_{n_i}} F(m) \cdot t_i^m \text{
+     for all $0 \leq i \leq p$}\nonumber\\% \label{eqn-wsha-reach}\\
+  t_i^m  &\geq&  0 \text{ for all $0 \leq i \leq p$ and  $m \in M_{n_i}$} \nonumber
+\end{eqnarray}
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\subsection{LTL Model Checking}
+
+\begin{frame}{LTL Model Checking: Just the best!}
+
+\begin{theorem}
+  The LTL model-checking problem for WSHA is PSPACE-complete.
+\end{theorem}
+
+\pause
+
+\begin{itemize}
+\item Weak Kripke SHA $(\Hh, \Pp, L)$ and LTL property $\phi$ \pause
+\item Negation of $\phi$ can be converted to B\"uchi automata $\Aa_{\neg \phi}$, 
+exponential in the size of $\phi$ (standard LTL to B\"uchi automata construction )\pause
+\item Product of a weak SHA $\Hh$ and $\Aa_{\neg \phi}$ remains
+weak SHA, since variables occur only in the WSHA.  \pause
+\item Standard polynomial space algorithm can be used. \pause
+\item PSPACE-hardness of the problem follows as the LTL model checking over finite
+automata is already PSPACE-complete. 
+\end{itemize}
+\end{frame}
+
+\subsection{CTL Model Checking}
+
+\begin{frame}{CTL Model Checking : Not so easy}
+
+\begin{theorem}
+   \label{thm:ctl-weak-sha}
+   CTL model checking of weak SHAs with two clock variables is \PSPACE{}-hard. 
+ \end{theorem}
+ 
+ \pause
+
+\begin{itemize}
+\item Polynomial reduction from subset-sum games, already known to be \PSPACE{}-complete \pause
+
+\item Decidability of CTL model checking: still open
+\end{itemize}
+\end{frame}
+
+\section{Extending WSHA : An Unsuccesful Attempt}
+
+\begin{frame}{WSHAs are JUST Decidable}
+WSHA is on the forefronts of decidability. Tweaking the model in the hope to improve expressiveness
+can lead to undecidability !
+
+\pause
+
+\begin{theorem}
+  \label{thm:sha-undec-three-var}
+  The reachability problem is undecidable for three variable WSHAs with discrete
+  updates. 
+ \end{theorem}
+ 
+\pause 
+  \begin{theorem}
+   \label{thm:sha-undec-three-var-one-clock}
+ The reachability problem is undecidable for CMS with three variables and one
+unrestricted clock. 
+ \end{theorem}
+\end{frame}
+
+%\begin{frame}{Blocks}
+%\begin{block}{Block Title}
+%You can also highlight sections of your presentation in a block, with it's own title
+%\end{block}
+%\begin{theorem}
+%There are separate environments for theorems, examples, definitions and proofs.
+%\end{theorem}
+%\begin{example}
+%Here is an example of an example block.
+%\end{example}
+%\end{frame}
+
+% Placing a * after \section means it will not show in the
+% outline or table of contents.
+\section{Summary}
+
+\begin{frame}{Summary and Future Work}
+  \begin{itemize}
+  \item
+    WSHAs as a subclass of Hybrid automata. \pause
+  \item
+  	Efficient model : Reachability, Schedulability and LTL Model Checking are Decidable \pause
+  \item
+    Slight extensions can lead to undecidability in results
+  \end{itemize}
+  
+  \pause
+  \begin{itemize}
+  \item
+    Future work
+    \begin{itemize}
+    \item
+		Decidability of CTL Model Checking for this problem is still unsolved
+    \item
+      Games on WSHA and restrictions on WSHA
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{References}
+\begin{frame}[allowframebreaks]{References}
+    \begin{thebibliography}{10}
+
+\bibitem{ACHH92}
+R.~Alur, C.~Courcoubetis, T.~A. Henzinger, and P.-S. Ho.
+\newblock Hybrid automata: An algorithmic approach to the specification and
+  verification of hybrid systems.
+\newblock In {\em Hybrid Systems}, pages 209--229, 1992.
+
+\bibitem{AD94}
+R.~Alur and D.~Dill.
+\newblock A theory of timed automata.
+\newblock {\em TCS}, 126(2):183--235, 1994.
+
+\bibitem{ATW12}
+R.~Alur, A.~Trivedi, and D.~Wojtczak.
+\newblock Optimal scheduling for constant-rate multi-mode systems.
+\newblock In {\em Hybrid Systems: Computation and Control ({HSCC})}, pages
+  75--84, 2012.
+
+\bibitem{AH94}
+Rajeev Alur and Thomas~A. Henzinger.
+\newblock A really temporal logic.
+\newblock {\em J. ACM}, 41(1):181--203, January 1994.
+
+\bibitem{AM98}
+E.~Asarin and O.~Maler.
+\newblock Achilles and the tortoise climbing up the arithmetical hierarchy.
+\newblock {\em Journal of Computer and System Sciences}, 57(3):389 -- 398,
+  1998.
+
+\bibitem{AMP95}
+E.~Asarin, M.~Oded, and A.~Pnueli.
+\newblock Reachability analysis of dynamical systems having piecewise-constant
+  derivatives.
+\newblock {\em Theoretical Computer Science}, 138:35--66, 1995.
+
+\bibitem{BK08}
+Christel Baier and Joost-Pieter Katoen.
+\newblock {\em Principles of model checking}.
+\newblock MIT Press, 2008.
+
+\bibitem{CES86}
+Edmund~M. Clarke, E~Allen Emerson, and A~Prasad Sistla.
+\newblock Automatic verification of finite-state concurrent systems using
+  temporal logic specifications.
+\newblock {\em ACM Transactions on Programming Languages and Systems (TOPLAS)},
+  8(2):244--263, 1986.
+
+\bibitem{FJ13}
+John Fearnley and Marcin Jurdzinski.
+\newblock Reachability in two-clock timed automata is pspace-complete.
+\newblock In {\em ICALP (2)}, pages 212--223, 2013.
+
+\bibitem{HK99}
+T.~A. Henzinger and P.~W. Kopke.
+\newblock Discrete-time control for rectangular hybrid automata.
+\newblock {\em TCS}, 221(1-2):369--392, 1999.
+
+\bibitem{HKPV98}
+T.~A. Henzinger, P.~W. Kopke, A.~Puri, and P.~Varaiya.
+\newblock What's decidable about hybrid automata?
+\newblock {\em Journal of Comp. and Sys. Sciences}, 57:94--124, 1998.
+
+\bibitem{JPMAM12}
+Z.~Jiang, M.~Pajic, S.~Moarref, R.~Alur, and R.~Mangharam.
+\newblock Modeling and verification of a dual chamber implantable pacemaker.
+\newblock In {\em TACAS}, pages 188--203, 2012.
+
+\bibitem{jones1976new}
+Neil~D Jones, Y~Edmund Lien, and William~T Laaser.
+\newblock New problems complete for nondeterministic log space.
+\newblock {\em Mathematical Systems Theory}, 10(1):1--17, 1976.
+
+\bibitem{LMS04}
+F.~Laroussinie, N.~Markey, and Ph. Schnoebelen.
+\newblock Model checking timed automata with one or two clocks.
+\newblock In {\em CONCUR}, volume 3170 of {\em LNCS}.
+
+\bibitem{MP87}
+Z.~Manna and A.~Pnueli.
+\newblock A hierarchy of temporal properties.
+\newblock In {\em Symposium on Principles of distributed computing}, pages
+  205--205. ACM, 1987.
+
+\bibitem{markey-HDR11}
+N.~Markey.
+\newblock {\em Verification of Embedded Systems -- Algorithms and Complexity}.
+\newblock M{\'e}moire d'habilitation, ENS Cachan, France, April 2011.
+
+\bibitem{Min67}
+Marvin~L. Minsky.
+\newblock {\em Computation: finite and infinite machines}.
+\newblock Prentice-Hall, Inc., 1967.
+
+\bibitem{PP04}
+D.~Perrin and J.~E. Pin.
+\newblock {\em Infinite Words---Automata, Semigroups, Logic and Games}, volume
+  141 of {\em Pure and Applied Mathematics}.
+\newblock Elsevier, 2004.
+
+\bibitem{Sch02}
+Philippe Schnoebelen.
+\newblock The complexity of temporal logic model checking.
+\newblock {\em Advances in Modal Logic}, 4:393--436, 2002.
+
+\bibitem{SC85}
+A.~P. Sistla and E.~M. Clarke.
+\newblock The complexity of propositional linear temporal logics.
+\newblock {\em J. ACM}, 32(3):733--749, July 1985.
+
+\bibitem{VW86}
+M.~Y. Vardi and P.~Wolper.
+\newblock An automata-theoretic approach to automatic program verification
+  (preliminary report).
+\newblock In {\em LICS}, pages 332--344, 1986.
+
+\end{thebibliography}\end{frame}
+
+\end{document}
+
+

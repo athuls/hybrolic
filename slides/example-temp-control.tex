@@ -1,0 +1,28 @@
+\begin{figure}
+  \begin{center}
+    \scalebox{0.8}{
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,semithick]
+      \tikzstyle{every state}=[fill=blue!30,minimum size=3em,rounded rectangle]
+      
+      \node[state] at (0, 0) (m0) {$\begin{array}{c}
+          \mbox{\bf Off} \\ \dot{T} = -0.1T \\ T \geq 18 \end{array}$};
+      
+      \node[state] at (7, 0) (m1) {$\begin{array}{c} \mbox{\bf On} \\ \dot{T} = 5-0.1T \\ T \leq 22 \end{array}$};
+     % \pause
+  
+      \path (m0) edge[bend left] node {$T < 19$} (m1);
+      
+      
+      \path (m1) edge[bend left] node {$T > 21$} (m0);
+      %\path (m0) edge node[] {$x_2 > 0, b$} (m2);
+      
+      %\path (m2) edge node[] {$ x_1 < 22, c$} (m3);
+      %\path (m1) edge node[] {$d$} (m3);
+   
+      %\path (m3) edge [loop above] node[] {$e$} (m3);
+    \end{tikzpicture}
+  }
+\end{center}
+\label{fig:sha}
+  \caption{Modelling a smart heater as a Hybrid Automata} 
+\end{figure}

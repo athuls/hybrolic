@@ -1,0 +1,25 @@
+  \begin{tikzpicture}[node distance=1cm]
+      \node[loc,label=below:$m_1$] (p4) at (0,-2.5) {$\begin{matrix} \dot{T_1} =
+          -2 \\ \dot{T_2} = 3 \end{matrix}$};
+      \only<2,5>{
+        \node[yloc,label=below:$m_2$] (p5) at (3,-2.5){$\begin{matrix} \dot{T_1} = -1
+            \\ \dot{T_2} = -1 \end{matrix}$};
+      }
+      \only<1,3-4,6->{
+        \node[loc,label=below:$m_2$] (p5) at (3,-2.5){$\begin{matrix} \dot{T_1} = -1
+            \\ \dot{T_2} = -1 \end{matrix}$};
+      }
+      \only<3>{
+        \node[yloc,label=below:$m_3$] (p6) at (6,-2.5){$\begin{matrix} \dot{T_1} = -1 \\ \dot{T_2} = 3 \end{matrix}$};}
+    \only<1,2,4->{
+      \node[loc,label=below:$m_3$] (p6) at (6,-2.5){$\begin{matrix} \dot{T_1} = -1 \\ \dot{T_2} = 3 \end{matrix}$};
+    }
+    \only<4>{
+      \node[yloc,label=below:$m_4$] (p7) at (0,-5) {$\begin{matrix} \dot{T_1} = 2 \\ \dot{T_2} = -2 \end{matrix}$};
+  }
+    \only<1-3,5->{
+    \node[loc,label=below:$m_4$] (p7) at (0,-5) {$\begin{matrix} \dot{T_1} = 2 \\ \dot{T_2} = -2 \end{matrix}$};
+  }
+    \node[loc,label=below:$m_5$] (p8) at (3,-5){$\begin{matrix} \dot{T_1} = 2 \\ \dot{T_2} = -1 \end{matrix}$};
+    \node[loc,label=below:$m_6$] (p9) at (6,-5){$\begin{matrix} \dot{T_1} = 2 \\ \dot{T_2} = 3 \end{matrix}$};
+  \end{tikzpicture}

@@ -1,0 +1,133 @@
+\usepackage{tikz,pgflibraryarrows,pgffor,pgflibrarysnakes,ifthen}
+\usepgflibrary{shapes}
+\usetikzlibrary{shadows}
+\usetikzlibrary{snakes}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{fit}
+
+\usepackage{supertabular}
+\usepackage{booktabs}
+\usepackage{xspace}
+
+\newcommand{\sz}{0.9}
+
+\newcommand{\vals}[1]{\fcolorbox{yellow}{yellow!20}{(#1)}}
+
+
+\tikzstyle{dot}=[circle, minimum size=0.1em, inner sep=0.3pt, draw=darkblue, fill=darkblue]
+\tikzstyle{edge}=[circle, draw=darkblue, fill=darkblue, ultra thick] 
+
+
+\tikzstyle{queue}=[rectangle,thick,minimum size=2em,draw=yellow!85!black,
+fill=yellow!40,decorate,decoration={random steps, segment length=2pt,  amplitude=2pt}]
+
+\tikzstyle{cloc}=[circle, thick, minimum size=2em]
+\tikzstyle{loc}=[circle,thick, minimum size=2em, draw=blue!80, fill=blue!20]
+\tikzstyle{ddot}=[circle,draw=black, inner sep=0em, fill=black]
+\tikzstyle{yloc}=[drop shadow, circle,thick, minimum size=2em, draw=blue!80, fill=blue!50]
+\tikzstyle{rloc}=[drop shadow, circle,thick, minimum size=2em, draw=red!80, fill=red!20]
+\tikzstyle{maxloc}=[rectangle,thick, minimum size=2em,draw=blue!80, fill=blue!20]
+\tikzstyle{stloc}=[rectangle,thick, minimum size=0em,draw=orange!80, fill=orange!20]
+\tikzstyle{floc}=[draw=red,circle,fill=red!50, minimum size=2em,inner sep=0em]
+
+\tikzstyle{state}=[drop shadow,rectangle,thick,minimum size=2em,draw=orange!80,fill=orange!25]
+
+\tikzstyle{background}=[rectangle,fill=gray!10,inner sep=0.2cm,rounded corners=5mm]
+
+
+\tikzstyle{port}=[draw,circle,fill=black!30, minimum size=0.5em,inner sep=0em]
+\tikzstyle{oloc}=[draw,rectangle,fill=black, minimum size=2em,inner sep=0em]
+
+\tikzstyle{oport}=[draw,rectangle,fill=black!30, minimum size=.5em,inner sep=0em]
+\tikzstyle{boxloc}=[draw, very thick, rectangle, minimum size=2em, inner sep=0.3em]
+\tikzstyle{trans}=[-latex, draw=gray, rounded corners,thick]
+\tikzstyle{trans2}=[-latex, draw=blue, rounded corners,thick]
+\tikzstyle{trans3}=[draw=gray, rounded corners,thick]
+\tikzstyle{trans4}=[draw=blue,rounded corners,thick]
+
+\usepackage{hyperref}
+
+\usetheme[width=0.30in]{Trinity}
+\usecolortheme{oxford}
+
+\usepackage{pgf,pgfarrows,pgfnodes}%pgfautomata,pgfheaps}
+\usepackage[latin1]{inputenc}
+
+
+\newcommand{\dotprod}{\circ}
+\newcommand{\point}[1]{{\overline{#1}}}
+\newcommand{\px}{\point{x}}
+\newcommand{\py}{\point{y}}
+\newcommand{\pz}{\point{z}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vw}{\vec{w}}
+\newcommand{\vb}{\vec{b}}
+\newcommand{\vf}{\vec{f}}
+\newcommand{\vt}{\vec{t}}
+\newcommand{\vzero}{\vec{0}}
+\newcommand{\PreImage}{\textrm{PreImage}}
+
+\newcommand{\Aa}{{\cal A}}
+\newcommand{\Hh}{{\cal H}}
+\newcommand{\Dd}{{\cal D}}
+\newcommand{\aA}{\mathbb{A}}
+\newcommand{\Bb}{{\cal B}}
+\newcommand{\Ff}{{\cal F}}
+\newcommand{\eE}{{\mathbb E}}
+\newcommand{\Gg}{{\cal G}}
+\newcommand{\Pp}{{\cal P}}
+\newcommand{\Tt}{{\cal T}}
+\newcommand{\Mm}{{\cal M}}
+\newcommand{\Real}{\mathbb R}
+\newcommand{\Rplus}{\Real_{\geq 0}}
+\newcommand{\seq}[1]{\langle #1 \rangle}
+
+\newcommand{\zzero}{\mathbf{0}}
+\newcommand{\set}[1]{\{#1\}}
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+\usecolortheme{rose}
+
+\newcommand{\Int}{\mathbb{Z}}
+
+\let\oldcite\cite
+\renewcommand{\cite}[1]{{\oldcite{#1}}}
+\newcommand{\citem}[1]{{\oldcite{#1}}}
+%\renewcommand{\cite}[1]{\colorbox{blue!10}{\oldcite{#1}}}
+%\newcommand{\citem}[1]{\colorbox{yellow!10}{\oldcite{#1}}}
+
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Set}[1]{\{#1\}}
+
+\definecolor{redshaded}{rgb}{1,0.75,0.75}
+\definecolor{shadedshaded}{gray}{0.9}
+\definecolor{blackshaded}{gray}{0.4}
+\definecolor{shaded}{gray}{0.7}
+
+\definecolor{darkred}{rgb}{0.8,0.15,0.15}
+\definecolor{darkblue}{rgb}{0.15,0.15,0.8}
+\definecolor{darkgreen}{rgb}{0.15,0.8,0.15}
+
+\def\radius{0.96cm}
+\def\innerradius{0.85cm}
+
+\def\softness{0.4}
+\definecolor{softred}{rgb}{1,\softness,\softness}
+\definecolor{softgreen}{rgb}{\softness,1,\softness}
+\definecolor{softblue}{rgb}{\softness,\softness,1}
+
+\definecolor{softrg}{rgb}{1,1,\softness}
+\definecolor{softrb}{rgb}{1,\softness,1}
+\definecolor{softgb}{rgb}{\softness,1,1}
+
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\green}[1]{{\color{darkgreen} #1}}
+\newcommand{\blue}[1]{{\color{darkblue} #1}}
+
+%% After two per-cent symbols the original Tantau text follows
+%% These two lines are exceptions to this rule. -mju
+
+
+
+

@@ -1,0 +1,193 @@
+% Copyright 2007 by Till Tantau
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/licenses/LICENSE for more details.
+
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/latex-beamer/themes/theme/beamerthemeTrinity.sty,v 1.9 2007/01/28 20:48:30 tantau Exp $
+
+% \setlength{\linewidth}{1pt}
+
+%\usepackage{eulervm}
+
+\DeclareOptionBeamer{compress}{\beamer@compresstrue}
+%\ProcessOptionsBeamer
+
+\setbeamercolor*{frametitle}{fg=frametitle,bg=white}
+\renewcommand{\emph}[1]{{\textcolor{blue}{#1}}}
+
+\newcommand{\emphu}[1]{\underline{#1}}
+\mode<presentation>
+\logo{\includegraphics[width=\beamer@sidebarwidth]{quad}}
+
+\usepackage{emerald}
+
+% \renewcommand\rmdefault{fau}
+% \renewcommand\sfdefault{fau}
+% %\renewcommand\ttdefault{fau}
+
+\setbeamercolor{titlelike}{parent=structure}
+\newdimen\beamer@sidebarwidth
+
+\setbeamerfont{date}{size=\tiny}
+\setbeamerfont{title}{series=\bfseries}%\fontfamily{fau}}
+%\setbeamerfont{frametitle}{series=\bfseries\fontfamily{fin}}
+%\setbeamerfont{frametitle}{series=\bfseries\fontfamily{fin}}
+\setbeamerfont{frametitle}{series=\bfseries}%\fontfamily{fau}}
+%\setbeamerfont{framesubtitle}{shape=\itshape}
+%\setbeamerfont{framesubtitle}{size=\small}
+\setbeamerfont{framenumber}{size=\tiny}%\fontfamily{fau}}
+\setbeamersize{text margin left=0.75cm,text margin right=0.5cm}
+\usebeamerfont{fg=black}
+
+\beamer@sidebarwidth=0in
+\reset@font
+
+%-- Parameters of this layout
+\DeclareOptionBeamer{width}{\beamer@sidebarwidth=#1}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+%-- Title page
+\defbeamertemplate*{title page}{trinity}[1][]
+{
+  \vbox{}
+  \vfill
+  \begin{centering}
+     \includegraphics[width=0.5in]{quad}
+    \vskip4em\par
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%
+    \end{beamercolorbox}%
+    \vskip0.5em\par
+    \begin{beamercolorbox}[sep=4pt,center,#1]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=4pt,center,#1]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=4pt,center,#1]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}\vskip0.2em
+    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+  \end{centering}
+  \vfill
+}
+
+\defbeamertemplate*{section slide}{trinity}[1][]
+{
+  \vbox{}
+  \vfill
+  \begin{centering}
+     \includegraphics[width=1in]{quad}
+    \vskip4em\par
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%
+    \end{beamercolorbox}%
+    \vskip0.5em\par
+    \begin{beamercolorbox}[sep=4pt,center,#1]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=4pt,center,#1]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=4pt,center,#1]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}\vskip0.2em
+    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+  \end{centering}
+  \vfill
+}
+
+\setbeamertemplate{itemize item}{%
+  \usebeamercolor[bg]{palette primary}%
+  --%
+}%
+\setbeamertemplate{itemize subitem}{%
+  \usebeamercolor[bg]{palette primary}%
+  --%
+}%
+\setbeamertemplate{itemize subsubitem}{%
+  \usebeamercolor[bg]{palette primary}%
+  --%
+}%
+\defbeamertemplate*{headline}{trinity headline}{}%
+\defbeamertemplate*{frametitle}{trinity frametitle}
+{%
+  {\vbox to \beamer@sidebarwidth{%
+      \vfil
+      {\usebeamercolor[fg]{frametitle}\usebeamerfont{frametitle}\insertframetitle}%\newline
+%       {\usebeamercolor[fg]{framesubtitle}\usebeamerfont{framesubtitle}\insertsection\par}%
+      \vfil%
+    }}\vskip-0.5cm\hrulefill%
+   %
+%\vskip-0.5cm% bit of a hack
+}
+
+\defbeamertemplate*{block begin}{trinity}
+{
+  \par\vskip\medskipamount%
+  \begin{beamercolorbox}[colsep*=.75ex]{block title}
+    \usebeamerfont*{block title}{\bfseries\color{white}{\insertblocktitle}}%
+  \end{beamercolorbox}%
+  {\parskip0pt\par}%
+  \ifbeamercolorempty[bg]{block title}
+  {}
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[colsep*=.75ex,vmode]{block body}%
+    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+}
+
+
+% \defbeamertemplate*{block end}{trinity block}
+% {%
+% 	\end{beamercolorbox}\nointerlineskip\vskip-0.5pt\begin{beamercolorbox}[colsep*=.75ex,vmode]{block title}\vbox{}%
+%   \end{beamercolorbox}%
+% 	\par\vskip\medskipamount%
+% }%
+
+\defbeamertemplate*{sidebar right}{sidebar theme}
+{%
+\vfill%
+  \llap{\usebeamercolor[fg]{frametitle}\usebeamerfont{framenumber}\insertshortauthor\ -- \insertframenumber{} of %
+     \inserttotalframenumber
+  \hskip0.1cm}
+  %\llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+  \vskip2pt
+}
+%\beamer@sidebarwidth
+%\ifdim\beamer@sidebarwidth>0pt
+%\setbeamersize{sidebar width left=0.30in}
+%\setbeamercolor{sidebar}{bg=white}
+%\defbeamertemplate*{sidebar left}{sidebar theme}
+%{
+%  \hbox to \beamer@sidebarwidth{\vbox to    
+%    \beamer@sidebarwidth{\hbox{\color{fg}
+%        \includegraphics[width=.30in]{chips}\\
+%        \includegraphics[width=.30in]{chips}
+%      }}} 
+%}
+
+%\resizebox{\beamer@sidebarwidth}{!}{
+%  \includegraphics[width=\beamer@sidebarwidth]{pic_2}}
+%}
+%} 
+%\fi
+
+\mode
+<all>
