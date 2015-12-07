@@ -1,0 +1,29 @@
+\begin{figure}
+    \begin{center}
+        \scalebox{0.8}{
+            \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,semithick]
+                \node[loc, label=below:$m_0$, label=left:
+                $\begin{matrix}
+                    x_1 - 3x_2 \leq 10 \\
+                    x_2 > -3
+                \end{matrix}$] (m0) at (0,-2.5) {
+                    $\begin{matrix}
+                        \dot{x_1} = -2 \\ 
+                        \dot{x_2} = 3 
+                    \end{matrix}$
+                };
+                \node[loc,label=below:$m_1$, label=right:$2x_1 + 3x_2 \leq 5$] (m1) at (5,-2.5) {
+                    $\begin{matrix}
+                        \dot{x_1} = 0 \\ 
+                        \dot{x_2} = -2
+                    \end{matrix}$
+                };
+            
+                \path (m0) edge[bend left] node {$a, \, x_1 + 2x_2 \leq 19$} node[below] {$\{x_2\}$} (m1);
+                \path (m1) edge[bend left]  node[above] {$b, \, x_1 > -21$} node[below] {$\{x_1, x_2\}$}(m0);
+            \end{tikzpicture}
+        }
+    \end{center}
+    \label{fig:sha-syntax}
+    \caption{Example SHA} 
+\end{figure}
