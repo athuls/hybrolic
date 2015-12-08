@@ -49,27 +49,29 @@
 \tableofcontents}
 
 \section{Introduction}
+
+\subsection{Cyber-Physical Systems}
  \frame{
   \frametitle{Cyber-Physical Systems (CPS)}
+  \pause
   \begin{itemize}
-    \item Cyber-Physical systems are engineered systems that depend upon the integration of
+    \item Cyber-Physical systems are engineered systems that depend upon the integration of \pause
         \begin{itemize}
-            \item computational algorithms, and 
-            \item physical components 
+            \item computational algorithms, and \pause
+            \item physical components \pause
         \end{itemize}
     \vspace{0.25in}
-    \item Diverse applications:
+    \item Diverse applications: \pause
         \begin{itemize}
-            \item Healthcare
-            \item Aerospace, Aeronautics
-            \item Chemical processes
-            \item Transportation
-            \item Energy sector
+            \item Healthcare : Pacemakers, Robotic arms\pause
+            \item Aerospace, Aeronautics : auto-pilots \pause
+            \item Chemical processes : Controllers ofr checmical plants \pause
+            \item Transportation : Self driving cars \pause
+            \item Energy sector : Nuclear reactors 
         \end{itemize}
   \end{itemize}
 }
    
-
 \frame{
   \frametitle{Cyber-Physical Systems (CPS)}
   \begin{center}
@@ -77,26 +79,29 @@
   \end{center}
 }
 
+\subsection{Hybrid Automata for Modelling CPS}
+
 \frame{
   \frametitle{Hybrid Automata: Modelling, Analysis and Synthesis of CPS}
+  \pause
   \begin{itemize}
   \item
-    Introduced by Alur et al. to model hybrid systems
+    Introduced by Alur et al. to model hybrid systems \pause
   \item
     Quite expressive, but \blue{undecidable} verification (reachability)
-    problems  
+    problems  \pause
   \item
-    Decidable subclasses exists, e.g.
+    Decidable subclasses exists, e.g. \pause
     \begin{itemize}
     \item 
-      \blue{Timed Automata} ({\footnotesize Alur, and Dill}),
+      \blue{Timed Automata} ({\footnotesize Alur, and Dill}), \pause
     \item 
       \blue{Initialized Rectangular Hybrid automata} ({\footnotesize Henzinger
-        et al.}), 
+        et al.}), \pause
  %   \item 
  %     \blue{Multi-Mode Systems} ({\footnotesize Alur, Trivedi, Wojtczak})   
     \end{itemize}
-    \item Most verification techniques rely on exhaustive exploration of state space using finite bisimulations
+    \item Most verification techniques rely on exhaustive exploration of state space using finite bisimulations \pause
 %  \item 
  %   \blue{Tool support}: \textsc{HyTech}, \textsc{PHAV}er, \textsc{Uppaal}
   \end{itemize}
@@ -104,34 +109,37 @@
     \input{example-temp-control} 
 }
 
-\section{Verification and Testing of Hybrid Automata}
+\section{Verification of Hybrid Automata}
 \frame{\tableofcontentscurrent}
+
+\subsection{Reachability : Motivation}
 
 \frame{
   \frametitle{Reachability in Hybrid Systems}
-  Safety Critical Systems :
+  \pause
+  Safety Critical Systems : \pause
     \begin{itemize}
-        \item Nuclear reactors
-        \item Chemical plants
-        \item Aeronautics/Automobiles
+        \item Nuclear reactors \pause
+        \item Chemical plants \pause
+        \item Aeronautics/Automobile \pauses
     \end{itemize}
-    It is therefore important to have certain safety guarantees for such systems
+    It is therefore important to have certain safety guarantees for such systems \pause
 
     \vspace{0.2in}
-    Checking reachability of certain states, thus, is a natural question to ask
+    Checking reachability of certain states, thus, is a natural question to ask \pause
     \begin{itemize}
-        \item Can reach some error state ?
-        \item How to reach ?
+        \item Can reach some error state ? \pause
+        \item How to reach ? \pause
             \begin{itemize}
-                \item input ?
-                \item path ? (non-determinism)
+                \item input ? \pause
+                \item path ? (non-determinism) \pause
             \end{itemize}
     \end{itemize}
 
     \vspace{0.2in}
-    Other interesting applications:
+    Other interesting applications: \pause
     \begin{itemize}
-        \item Motion planning
+        \item Motion planning 
     \end{itemize}
         
 %%  \begin{center}
@@ -148,6 +156,7 @@
 
 \frame{
     \frametitle{Robotic Motion Planning}
+    \pause
     
     \vspace{-0.2in}
     \input{robot.tex}
@@ -158,23 +167,27 @@
 }
 
 
-\section{Singular Hybrid Automata: Syntax and Semantics}
+\section{Singular Hybrid Automata}
+
+\subsection{Syntax}
 
 \frame{
 	\frametitle{Syntax of SHA}
+    \pause
     \begin{block}{Syntax : Singular Hybrid Automata (SHA)}
-	A singular hybrid automaton is a tuple 
-    \blue{$\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$}
+    \pause
+	A singular hybrid automaton is a tuple
+    \blue{$\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$} 
     %\blue{$\Hh = (M, M_0, X, \Delta, I, F)$}
-	where
+	where \pause
 	\begin{itemize}
-		\item $M$ is a finite set of control {\color{blue}{modes}} and $M_0 \subseteq M$, 
-		\item $\Sigma$ is a finite set of {\color{blue}actions},
-		\item $X$ is an (ordered) set of {\color{blue}variables}, 
+		\item $M$ is a finite set of control {\color{blue}{modes}} and $M_0 \subseteq M$,  \pause
+		\item $\Sigma$ is a finite set of {\color{blue}actions}, \pause
+		\item $X$ is an (ordered) set of {\color{blue}variables},  \pause
 		%\item $\Delta \subseteq M \times \poly(X) \times 2^{X} \times M$ is the {\color{blue}transition relation}, 
-		\item $\Delta \subseteq M \times \poly(X) \times \Sigma \times 2^{X} \times M$ is the {\color{blue}transition relation}, 
-		\item $I: M \to \poly(X)$  is the {\color{blue}mode-invariant} function, and
-		\item $F: M \to \Rat^{|X|}$ is the mode-dependent {\color{blue}flow function} characterizing the rate of each variable in each mode.
+		\item $\Delta \subseteq M \times \poly(X) \times \Sigma \times 2^{X} \times M$ is the {\color{blue}transition relation},  \pause
+		\item $I: M \to \poly(X)$  is the {\color{blue}mode-invariant} function, and \pause
+		\item $F: M \to \Rat^{|X|}$ is the mode-dependent {\color{blue}flow function} characterizing the rate of each variable in each mode. \pause
 	\end{itemize}
     \end{block}
 
@@ -182,12 +195,17 @@
 	
 }
 
+\subsection{Semantics}
+
 \frame{
 	\frametitle{Semantics of SHA}
+    \pause
+    \begin{block}{Semantics : Singular Hybrid Automata (SHA)}
+    \pause
 	\begin{itemize}
-	\item \blue{Configuration} $(m, \nu)$, $m \in M$, $\nu \in \mathbb{R}^{\lvert X \rvert}$
-    \item \blue{Timed action} $(t, a)$, $t \in \mathbb{R}^{\geq 0}$ and $a \in \Sigma$ 
-	\item \blue{Transition} $((m, \nu) (t, a) (m', \nu'))$
+	\item \blue{Configuration} $(m, \nu)$, $m \in M$, $\nu \in \mathbb{R}^{\lvert X \rvert}$ \pause
+    \item \blue{Timed action} $(t, a)$, $t \in \mathbb{R}^{\geq 0}$ and $a \in \Sigma$  \pause
+	\item \blue{Transition} $((m, \nu) (t, a) (m', \nu'))$ \pause
 %%%%	\begin{itemize}
 %%%%        \item $(m, g, a, \mathcal{R}, m') \in \Delta$
 %%%%            \begin{itemize}
@@ -205,13 +223,15 @@
 %%%%                $
 %%%%		\item $\nu' \in I(m')$ (Invariant)
 %%%%	\end{itemize} 
-	\item A \blue{run} is a sequence of transitions $(m_0, \nu_0) (t_1, a_1)
-	(m_1, \nu_1) (t_2, a_2) \cdots$
+	\item A \blue{run} is a sequence of transitions $(m_0, \nu_0) (t_1, a_1) (m_1, \nu_1) (t_2, a_2) \cdots$ \pause
 	\end{itemize}
+    \end{block}
 
     \input{SHASemantics}
 	
 }
+
+\subsection{Example}
 
 \frame{
     \frametitle{Modelling Robot Motion Planning Using SHA}    
@@ -227,10 +247,11 @@
     \input{robot-sha.tex}
 }
 
-\subsection{Reachability}
+\subsection{Reachability in SHA}
 
 \frame{
   \frametitle{Reachability in SHA}
+  \pause
   \begin{block}{Configuration Reachability Problem}
     Given a \blue{singular hybrid automaton $\mathcal{A}$}, a set of starting configurations $\mathcal{S}$, and a set of target configurations $\mathcal{T}$, decide whether there exists a
     \begin{itemize}
@@ -247,10 +268,11 @@
   \end{theorem}
 }
 
-\subsection{Concolic walk}
+\section{Concolic walk}
 
 \frame{
   \frametitle{Concolic Testing and Concolic Walk}
+  \pause
   Concolic Walk \pause
     \begin{itemize}
         \item Concolic \pause = \blue{conc}rete evaluation  \pause + symb\blue{olic} reasoning \pause
@@ -267,16 +289,21 @@
     \end{itemize}
 }
 
-\subsection{Our approach}
+\section{Our Approach}
+
+\subsection{Understanding the Problem}
 
 \frame{
   \frametitle{Problem in focus}
+  \pause
     \begin{itemize}
         \item Given a timed path, checking for reachability is \blue{easy} \pause
         \begin{itemize}
             \item Get a \blue{simple} set of constraints \pause : Linear program \pause
             \item check for feasibility \pause
         \end{itemize}
+
+    \vspace{0.1in}
         \item Coming up with the right path : \blue{difficult} \pause
         \begin{itemize}
             \item Potentially infinite paths to be considered! \pause
@@ -284,6 +311,8 @@
         \end{itemize}
     \end{itemize}
 }
+
+\subsection{Tackling the Problem}
 
 \frame{
 \frametitle{Generating Relevant Paths}
@@ -309,23 +338,43 @@
         \begin{itemize}
             \item Check if you are moving closer \pause
             \item If not, prune the search space \pause
-            \item Otherwise, move even closer ! \pause
+            \item Otherwise, move even closer !
         \end{itemize}
     \end{itemize}
 }
 
+\subsection{Example}
+
 \frame{
-    \frametitle{Example : Systematic Exploration of paths}
+    \frametitle{Example : Search Guided Path Exploration}
     \input{reach-diagram}
 }
 
 
-\section{Future Work}
+\section{Summary and Future Work}
 \frame{
 	\frametitle{Summary and Future Work}
+\pause
+    Summary \pause
+    \begin{itemize}
+        \item Constraint Optimization approach for solving reachability \pause
+        \item <talk about tool> \pause
+        \item <talk about its performance> \pause
+        \item <talk about bottlenecks in performance> \pause
+    \end{itemize}
 
+    \vspace{0.1in}
+    Future Work \pause
 	\begin{itemize}
-		\item Future work
+		\item Better Heuristics for Search \pause
+        \item Heuristics for exploration of paths of same length
+        \item Proving properties about reachable sets : Monotonicity and Regularity \pause
+        \item Use of abstractions : \pause
+            \begin{itemize}
+                \item Underapproximations of reachable sets to conservatively estimate the fitness function \pause
+                \item Efficiently calculate the ditness function \pause
+            \end{itemize}
+        \item Extend approach for attacking loops in programs
 	\end{itemize}
 }
 
