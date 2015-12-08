@@ -250,33 +250,71 @@
 \subsection{Concolic walk}
 
 \frame{
-  \frametitle{Concolic walk}
-  \begin{block}{Concepts}
+  \frametitle{Concolic Testing and Concolic Walk}
+  Concolic Walk \pause
     \begin{itemize}
-        \item Combination of symbolic reasoning, concrete evaluation and heuristic search 
-        \item Use fitness function to measure how close a point in half-space (obtained from linear constraints) is to global solutions for whole path condition
-        \item Search heuristic uses fitness function to guide random walk towards promising regions in valuation space
-	\item Not complete, but sound approach to handle non-linear constraints in path condition
+        \item Concolic \pause = \blue{conc}rete evaluation  \pause + symb\blue{olic} reasoning \pause
+        \item Ask an external solver to solve constaints (symbolic) \pause
+        \item Use concrete values if solver cannot afford to solve (concrete) \pause
+        \item Walk : \pause
+        \begin{itemize}
+            \item Quantify (fitness function) distance of actual solution from (half) state space (obtained from solvable constraints) \pause
+            %\item Use fitness function to measure how close a point in half-space (obtained from linear constraints) is to global solutions for whole path condition
+            \item Use search heuristics to guide random walk towards the goal (finding support of fitness function) \pause
+        \end{itemize}
+	\item Soundness guaranteed : No false alarms ! \pause
+    \item Incomplete - Inherently undecidable
     \end{itemize}
-  \end{block}
 }
 
 \subsection{Our approach}
 
 \frame{
   \frametitle{Problem in focus}
-  \begin{block}{}
     \begin{itemize}
-        \item  
-        \item Use fitness function to measure how close a point in half-space (obtained from linear constraints) is to global solutions for whole path condition
-        \item Search heuristic uses fitness function to guide random walk towards promising regions in valuation space
-	\item Not complete, but sound approach to handle non-linear constraints in path condition
+        \item Given a timed path, checking for reachability is \blue{easy} \pause
+        \begin{itemize}
+            \item Get a \blue{simple} set of constraints \pause : Linear program \pause
+            \item check for feasibility \pause
+        \end{itemize}
+        \item Coming up with the right path : \blue{difficult} \pause
+        \begin{itemize}
+            \item Potentially infinite paths to be considered! \pause
+            \item Problem is undecidable ! 
+        \end{itemize}
     \end{itemize}
-  \end{block}
 }
 
 \frame{
-    \frametitle{Example}
+\frametitle{Generating Relevant Paths}
+    \pause
+    Quadratic programming and Search algorithms to the rescue ! \pause
+    \begin{itemize}
+        \item Every set of infeasible constraints (out of a path) gives some information \pause
+        \begin{itemize}
+            \item How close it is to the target region \pause
+            \item Use \blue{quadratic programming} :  
+            \begin{equation*}
+                \begin{array}{ll@{}ll}
+                    \text{minimize}     & \|x-y \| &\\
+                    \text{ } & & \\
+                    \text{subject to}   & A_1 \: x \leq b_1\\
+                    \text{and}          & A_2 \: y \leq b_2
+                \end{array}
+            \end{equation*}
+            \pause
+        \end{itemize}
+        \item Search heuristics fo systematic exploration of paths: \pause
+        \begin{itemize}
+            \item Check if you are moving closer \pause
+            \item If not, prune the search space \pause
+            \item Otherwise, move even closer ! \pause
+        \end{itemize}
+    \end{itemize}
+}
+
+\frame{
+    \frametitle{Example : Systematic Exploration of paths}
     \input{reach-diagram}
 }
 
