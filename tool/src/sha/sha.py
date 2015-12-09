@@ -21,4 +21,11 @@ class SHA:
     def add_transition(self, trans):
         self.transitionList.append(trans)
         
+    def set_mode_list(self, mlist):
+        self.modeList = mlist
     
+    def set_transition_list(self, tlist):
+        self.transitionList = tlist
+        
+    def set_initial_modelist(self, ilist):
+        self.initModeList = ilist

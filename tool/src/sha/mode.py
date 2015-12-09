@@ -26,6 +26,7 @@ class Mode:
             self.name = 'm' + self.index
         else:
             self.name = name
+            
         self.invariant = None
         
         self.from_neighbor_list = []
