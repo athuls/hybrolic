@@ -1,0 +1,2 @@
+1) Guard class and invariant class: Will inherit constraintSet class
+2) Another packaage: Take SHA, and n...generates paths and feed it to solver 

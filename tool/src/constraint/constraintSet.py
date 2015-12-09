@@ -4,7 +4,7 @@ Created on Dec 8, 2015
 @author: umang
 '''
 
-class ConstraintSet(object):
+class ConstraintSet:
     '''
     classdocs
     '''

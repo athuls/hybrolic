@@ -6,7 +6,7 @@ Created on Dec 8, 2015
 
 from error.error import Error
 
-class Constraint(object):
+class Constraint:
     '''
     Denotes a single linear constraint
     of the form

@@ -5,7 +5,7 @@ Created on Dec 8, 2015
 '''
 from error.error import Error
 
-class Mode():
+class Mode:
     '''
     classdocs
     '''
