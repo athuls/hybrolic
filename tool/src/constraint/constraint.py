@@ -22,6 +22,8 @@ class Constraint:
     def check_dim_static(n1, n2):
         if(n1 != n2):
             Error.error("Dimension mismatch")
+            
+    
 
     def __init__(self, num_vars, coefficients, constant):
         '''
