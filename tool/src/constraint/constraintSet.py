@@ -4,6 +4,8 @@ Created on Dec 8, 2015
 @author: umang
 '''
 
+from cvxopt import matrix, solvers 
+
 class ConstraintSet:
     '''
     classdocs
@@ -26,3 +28,7 @@ class ConstraintSet:
             A.append(c.coefficients)
             b.append(c.constant)
         return (A,b)
+    
+    def solve(self):
+        '''Return solution of LP'''
+        get_LP(self,)

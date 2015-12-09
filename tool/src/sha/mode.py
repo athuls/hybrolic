@@ -23,3 +23,4 @@ class Mode:
     def add_into_transition(self, trans):
         '''do something'''
         
+        
