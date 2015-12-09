@@ -184,7 +184,7 @@
 	\begin{itemize}
 		\item $M$ is a finite set of control {\color{blue}{modes}} and $M_0 \subseteq M$,  \pause
 		\item $\Sigma$ is a finite set of {\color{blue}actions}, \pause
-		\item $X$ is an (ordered) set of {\color{blue}variables},  \pause
+		\item $X$ is a finite set of {\color{blue}variables},  \pause
 		%\item $\Delta \subseteq M \times \poly(X) \times 2^{X} \times M$ is the {\color{blue}transition relation}, 
 		\item $\Delta \subseteq M \times \poly(X) \times \Sigma \times 2^{X} \times M$ is the {\color{blue}transition relation},  \pause
 		\item $I: M \to \poly(X)$  is the {\color{blue}mode-invariant} function, and \pause
@@ -276,7 +276,7 @@
   \pause
   Concolic Walk \pause
     \begin{itemize}
-        \item Concolic \pause = \blue{conc}rete evaluation  \pause + symb\blue{olic} reasoning \pause
+        \item Concolic \pause = '\blue{conc}'rete evaluation  \pause + symb\blue{olic} reasoning \pause
         \item Ask an external solver to solve constaints (symbolic) \pause
         \item Use concrete values if solver cannot afford to solve (concrete) \pause
         \item Walk : \pause
@@ -298,10 +298,10 @@
   \frametitle{Problem in focus}
   \pause
     \begin{itemize}
-        \item Given a timed path, checking for reachability is \blue{easy} \pause
+        \item Given a 'symbolic' \blue{path}, checking for reachability is \blue{easy} \pause
         \begin{itemize}
-            \item Get a \blue{simple} set of constraints \pause : Linear program \pause
-            \item check for feasibility \pause
+            \item \blue{Simple} set of constraints \pause : Linear program \pause
+            \item Check for feasibility \pause
         \end{itemize}
 
     \vspace{0.1in}
@@ -321,7 +321,7 @@
     Quadratic programming and Search algorithms to the rescue ! \pause
     \vspace{0.1in}
     \begin{itemize}
-        \item Every set of infeasible constraints (out of a path) gives some information \pause
+        \item Every set of infeasible constraints from the symbolic path gives some information \pause
         \begin{itemize}
             \item How close it is to the target region \pause
             \item Use \blue{quadratic programming} :  
@@ -351,14 +351,15 @@
     \input{reach-diagram}
 }
 
-
 \section{Summary and Future Work}
 \frame{
 	\frametitle{Summary and Future Work}
 \pause
     Summary \pause
     \begin{itemize}
-        \item Constraint Optimization approach for solving reachability \pause
+        \item Systematic approach for solving reachability \pause
+        \item Convex optimization \pause
+        \item Heuristic search techniques \pause
         \item <talk about tool> \pause
         \item <talk about its performance> \pause
         \item <talk about bottlenecks in performance> \pause
@@ -367,15 +368,15 @@
     \vspace{0.1in}
     Future Work \pause
 	\begin{itemize}
-		\item Better Heuristics for Search \pause
-        \item Heuristics for exploration of paths of same length
+	\item Better Heuristics for Search \pause
+        \item Techniques to prune exploration of paths of given length
         \item Proving properties about reachable sets : Monotonicity and Regularity \pause
         \item Use of abstractions : \pause
             \begin{itemize}
                 \item Underapproximations of reachable sets to conservatively estimate the fitness function \pause
-                \item Efficiently calculate the ditness function \pause
+                \item Efficiently calculate the fitness function \pause
             \end{itemize}
-        \item Extend approach for attacking loops in programs
+        \item Extend approach for attacking loops in software programs
 	\end{itemize}
 }
 
