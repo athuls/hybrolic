@@ -15,7 +15,7 @@ class Constraint:
     Here,
     num_vars = n
     coefficients = [a1, a2, ..., an]
-    constant = bn
+    constant = b
     '''
     
     @staticmethod
@@ -27,13 +27,16 @@ class Constraint:
         '''
         Constructor
         '''
-        Constraint.check_dim_static(num_vars, len(coefficients))
         self.num_vars = num_vars
+        self.check_dim(len(coefficients))
+        Constraint.check_dim_static(num_vars, len(coefficients))
         self.coefficients = coefficients
         self.constant = constant
         
     def check_dim(self, n):
-        Constraint.check_dim_static(self.num_vars, n)
+        '''Constraint.check_dim_static(self.num_vars, n)'''
+        if(self.num_vars != n):
+            Error.error("Dimension mismatch")
         
     def to_string(self):
         varlist = ['x' + str(i) for i in range(0, self.num_vars)]

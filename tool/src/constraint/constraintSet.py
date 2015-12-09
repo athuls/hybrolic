@@ -4,6 +4,8 @@ Created on Dec 8, 2015
 @author: umang
 '''
 
+from cvxopt import matrix, solvers 
+
 class ConstraintSet:
     '''
     classdocs
@@ -40,3 +42,7 @@ class ConstraintSet:
 
     def __repr__(self):
         return self.__str__()
+
+    def solve(self):
+        '''Return solution of LP'''
+        get_LP(self,)
