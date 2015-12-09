@@ -10,7 +10,7 @@ class Error:
         @staticmethod
         def error(msg, estream = None):
             error_stream = None
-            if estream == None:
+            if estream is None:
                 error_stream = sys.stderr
             else:
                 error_stream = estream

@@ -8,16 +8,21 @@ class ConstraintSet:
     '''
     classdocs
     '''
-    
-    def __init__(self, num_vars):
+    def __init__(self, num_vars, clist=None):
         '''
         Constructor
         '''
         self.num_vars = num_vars
+        if not(clist is None):
+            self.add_constraint_list(clist)
         
     def add_constraint(self, constraint):
         constraint.check_dim(self.num_vars)
         self.constraintList.append(constraint)
+        
+    def add_constraint_list(self, clist):
+        for c in clist:
+            self.add_constraint(c)
         
     def get_LP(self):
         A = []
@@ -26,3 +31,12 @@ class ConstraintSet:
             A.append(c.coefficients)
             b.append(c.constant)
         return (A,b)
+    
+    def to_string(self):
+        return '\n'.join(self.constraintList)
+    
+    def __str__(self):
+        return self.to_string()
+
+    def __repr__(self):
+        return self.__str__()

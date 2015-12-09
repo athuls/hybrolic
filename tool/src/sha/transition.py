@@ -8,8 +8,10 @@ class Transition:
     '''
     classdocs
     '''
-    def __init__(self, params):
+    __transitionindex__ = 0
+    def __init__(self, from_mode, guard, label, reset_set, to_mode):
         '''
         Constructor
         '''
-        
+        self.index = Transition.__transitionindex__
+        Transition.__transitionindex__ = Transition.__transitionindex__ + 1
