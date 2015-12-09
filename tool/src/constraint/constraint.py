@@ -33,4 +33,4 @@ class Constraint(object):
         self.constant = constant
         
     def check_dim(self, n):
-        Constraint.check_dim(self.num_vars, n)
+        Constraint.check_dim_static(self.num_vars, n)
