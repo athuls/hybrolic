@@ -4,7 +4,7 @@ Created on Dec 8, 2015
 @author: umang
 '''
 
-class sha:
+class SHA:
     '''
     classdocs
     '''
@@ -18,7 +18,7 @@ class sha:
     def add_mode(self, m):
         self.modeList.append(m)
         
-    def add_transition(self, transition):
-        self.transitionList.append(transition)
+    def add_transition(self, trans):
+        self.transitionList.append(trans)
         
     
