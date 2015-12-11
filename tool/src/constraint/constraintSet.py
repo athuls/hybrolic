@@ -29,6 +29,19 @@ class ConstraintSet:
             b.append(c.constant)
         return (A,b)
     
-    def solve(self):
+    '''Will need to factor it out into separate class'''
+    def feasible(self):
         '''Return solution of LP'''
-        get_LP(self,)
+        G,h = self.get_LP()
+        GMatrix = matrix(G)
+        hMatrix = matrix(h)
+                
+        '''Dummy objective function to check for feasibility'''
+        c = matrix([1])
+        sol = solvers.lp(c, GMatrix, hMatrix)
+        if(sol == None):
+            return False
+        
+    def distance(self):
+        if(self.feasible()):
+            

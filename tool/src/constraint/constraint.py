@@ -29,7 +29,6 @@ class Constraint:
         '''
         self.num_vars = num_vars
         self.check_dim(len(coefficients))
-        Constraint.check_dim_static(num_vars, len(coefficients))
         self.coefficients = coefficients
         self.constant = constant
         
