@@ -46,15 +46,13 @@ class ConstraintSet:
     def __repr__(self):
         return self.__str__()
 
-    def solve(self):
+    def solve(self,objective):
         '''Return solution of LP'''
         '''optimizing dummy variable for LP'''
-        c = matrix([1.])
+        c = matrix(objective)
         [A,b] = self.get_LP()
-        print(len(A))
-        print(len(A[0]))
-        print(len(b))
         AMatrix = matrix(A)
-        bMatrix = matrix(b)
+        AMatrix = AMatrix.trans()
+        bMatrix = matrix(b).trans()
         sol = solvers.lp(c, AMatrix, bMatrix)
         return sol
