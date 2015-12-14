@@ -11,12 +11,11 @@ class ConstraintSet:
     classdocs
     '''
     
-    constraintList = []
-    
     def __init__(self, num_vars, clist=None):
         '''
         Constructor
         '''
+        self.constraintList=[]
         self.num_vars = num_vars
         if not(clist is None):
             self.add_constraint_list(clist)
