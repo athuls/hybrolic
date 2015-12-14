@@ -29,12 +29,13 @@ class Constraint:
         '''
         self.num_vars = num_vars
         self.check_dim(len(coefficients))
-        Constraint.check_dim_static(num_vars, len(coefficients))
         self.coefficients = coefficients
         self.constant = constant
         
     def check_dim(self, n):
         '''Constraint.check_dim_static(self.num_vars, n)'''
+        print(self.num_vars)
+        print(n)
         if(self.num_vars != n):
             Error.error("Dimension mismatch")
         

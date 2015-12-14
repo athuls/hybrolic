@@ -4,12 +4,15 @@ Created on Dec 8, 2015
 @author: umang
 '''
 
-from cvxopt import matrix, solvers 
+from cvxopt import matrix, solvers
 
 class ConstraintSet:
     '''
     classdocs
     '''
+    
+    constraintList = []
+    
     def __init__(self, num_vars, clist=None):
         '''
         Constructor
@@ -45,4 +48,13 @@ class ConstraintSet:
 
     def solve(self):
         '''Return solution of LP'''
-        get_LP(self,)
+        '''optimizing dummy variable for LP'''
+        c = matrix([1.])
+        [A,b] = self.get_LP()
+        print(len(A))
+        print(len(A[0]))
+        print(len(b))
+        AMatrix = matrix(A)
+        bMatrix = matrix(b)
+        sol = solvers.lp(c, AMatrix, bMatrix)
+        return sol
