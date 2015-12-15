@@ -48,46 +48,4 @@ class TSPResult(object):
                 + divider + "\n"\
                 + divider + "\n"
                 
-        return final     
-    
-    
-class BasinResult(object):
-    '''
-    Class that takes a result from a search algorithm for optimal basin function and prints
-    the result and efficacy
-    '''
-    
-
-    def __init__(self,searchAlgorithm):
-        '''
-        Constructor
-        '''
-        self.Algorithm = searchAlgorithm
-        
-    def FormattedOutput(self, result):
-        '''
-        Outputs the input values for the basin function that minimizes the cost and also the optimal cost.
-        '''
-        name = self.Algorithm
-        divider = "*" * 20
-        inputsHeader = "Optimal Basin Function Inputs"
-        input = [round(item,5) for item in result["vector"]]
-        
-        basinHeader = "Optimal Basin Function Value"
-        basinValue = round(result["cost"],5)
-        
-        final = divider + "\n"\
-                + name + "\n"\
-                + divider + "\n"\
-                + divider + "\n"\
-                + inputsHeader + "\n"\
-                + divider + "\n"\
-                + str(input) + "\n"\
-                + divider + "\n"\
-                + basinHeader + "\n"\
-                + divider + "\n"\
-                + str(basinValue) + "\n"\
-                + divider + "\n"\
-                + divider + "\n"
-                
-        return final      
+        return final

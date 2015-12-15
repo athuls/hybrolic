@@ -6,7 +6,7 @@ Created on Jun 17, 2011
 Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tests and functional tests of search
 '''
 import unittest
-from .ResultHelpers import TSPResult.FormattedOutput
+from . import ResultHelpers
 class SearchTests(unittest.TestCase):
     
     def setUp(self):
@@ -23,9 +23,6 @@ class SearchTests(unittest.TestCase):
                     [830,610],[605,625],[595,360],[1340,725],[1740,245]
                    ]
         self.TSPLIB = berlin52
-        
-    def tearDown(self):
-        self.Vector =[]
         
     #@unittest.skip("Don't run FOR NOW!")          
     def testTabuSearch(self):
