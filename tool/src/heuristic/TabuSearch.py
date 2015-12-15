@@ -43,15 +43,19 @@ def generateCandidates(best, tabuList, points):
         permutation, edges = stochasticTwoOptWithEdges(best["permutation"])
     candidate ={}    
     candidate["permutation"] = permutation
+    '''Call constraint set solver to get distance d between 2 polyhedra'''
     candidate["cost"] = tourCost(candidate["permutation"])
     result["candidate"] = candidate
     result["edges"] = edges
     return result
 
+'''points has to be array of 2 elements'''
 def search(points, maxIterations, maxTabu, maxCandidates):
     # construct a random tour
     best ={}
     best["permutation"] = constructInitialSolution(points)
+    
+    '''Call constraint set solver to get distance d between 2 polyhedra'''
     best["cost"] = tourCost(best["permutation"])
     tabuList =[]
     while maxIterations>0:

@@ -8,6 +8,7 @@ class SearchTests(unittest.TestCase):
     def setUp(self):
         self.Vector = [1,2]
         # Problem Configuration
+        '''For hybrolic, this will be range of n i.e. number of iterations'''
         berlin52 = [[565,575],[25,185],[345,750],[945,685],[845,655],
                     [880,660],[25,230],[525,1000],[580,1175],[650,1130],[1605,620],
                     [1220,580],[1465,200],[1530,5],[845,680],[725,370],[145,665],

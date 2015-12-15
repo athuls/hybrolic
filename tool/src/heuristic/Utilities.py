@@ -26,6 +26,7 @@ def tourCost(perm):
     
     return totalDistance    
 
+'''We could just return n+1 and n-1 for the input n, which is perm here'''
 def stochasticTwoOptWithEdges(perm):
     result = perm[:] # make a copy
     size = len(result)
@@ -55,15 +56,7 @@ def stochasticTwoOptWithEdges(perm):
     
     return result, [[perm[p1-1],perm[p1]],[perm[p2-1],perm[p2]]]
 
-# Function that creates a random permutation from an initial permutation by shuffling the elements in to a random order
+# Function that generates initial solution by picking random value of n
 def constructInitialSolution(initPerm):
-    #Randomize the initial permutation
-    permutation = initPerm[:] # make a copy of the initial permutation
-    size = len(permutation)
-    for index in range(size):
-        # shuffle the values of the initial permutation randomly
-        # get a random index and exchange values
-        shuffleIndex = random.randrange(index,size)# randrange would exclude the upper bound
-        permutation[shuffleIndex], permutation[index]= permutation[index], permutation[shuffleIndex]
-
-    return permutation
+    initSolution = random.randrange(initPerm[0],initPerm[1])
+    return initSolution

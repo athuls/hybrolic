@@ -1,7 +1,7 @@
 '''
 Created on Dec 8, 2015
 
-@author: umang
+@author: umang,sandur2
 '''
 
 from cvxopt import matrix, solvers
@@ -28,6 +28,7 @@ class ConstraintSet:
         for c in clist:
             self.add_constraint(c)
         
+    '''This needs to be factored out'''
     def get_LP(self):
         A = []
         b = []
@@ -45,6 +46,7 @@ class ConstraintSet:
     def __repr__(self):
         return self.__str__()
 
+    '''This needs to be factored out'''
     def solve(self,objective):
         '''Return solution of LP'''
         '''optimizing dummy variable for LP'''
