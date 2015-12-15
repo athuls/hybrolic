@@ -1,39 +1,4 @@
-'''
-Created on Jun 20, 2011
-
-@author: Sai
-'''
 import math, random
-
-# Objective function that evaluates the cost
-def basinFunction(vector):
-    # original basin function from Clever Algorithms book
-    #return sum([pow(item,2) for item in vector])
-    a,h,k = 0.5,2,-5
-    return sum([a * pow((item-h),2) + k for item in vector])
-
-def getRandomWithinBounds(min, max):
-    return min + (max - min) * random.random()
-
-# Randomizing function that selects random  inputs for the objective function
-def randomSolution(minMax, problemSize):
-    inputValues =[]
-    while problemSize>0:
-        # generates a value between the minimum and maximum values of the search space
-        inputValues.append(getRandomWithinBounds(minMax[0], minMax[1]))
-        problemSize -=1
-        
-    return inputValues
-
-# Function to take a step and return the objective function value
-def takeStep(bounds, currentInput, stepSize):
-    stepInput =[]
-    for index in range(0,len(currentInput)):
-        lBound = max([bounds[0], currentInput[index] - stepSize ])
-        uBound = min([bounds[1], currentInput[index] + stepSize])
-        stepInput.append(getRandomWithinBounds(lBound, uBound))
-    
-    return stepInput
 
 # Function which calculates the euclidean distance between two points
 def euclideanDistance(v1, v2):
@@ -60,36 +25,6 @@ def tourCost(perm):
         totalDistance +=  euclideanDistance(perm[index], point2)
     
     return totalDistance    
-
-# Function that deletes two edges and reverses the sequence in between the deleted edges
-def stochasticTwoOpt(perm):
-    result = perm[:] # make a copy
-    size = len(result)
-    # select indices of two random points in the tour
-    p1, p2 = random.randrange(0,size), random.randrange(0,size)
-    # do this so as not to overshoot tour boundaries
-    exclude = set([p1])
-    if p1 == 0:
-        exclude.add(size-1)
-    else:
-        exclude.add(p1-1)
-    
-    if p1 == size-1:
-        exclude.add(0)
-    else:
-        exclude.add(p1+1) 
-                       
-    while p2 in exclude:
-        p2 = random.randrange(0,size)
-
-    # to ensure we always have p1<p2        
-    if p2<p1:
-        p1, p2 = p2, p1
-     
-    # now reverse the tour segment between p1 and p2   
-    result[p1:p2] = reversed(result[p1:p2])
-    
-    return result
 
 def stochasticTwoOptWithEdges(perm):
     result = perm[:] # make a copy

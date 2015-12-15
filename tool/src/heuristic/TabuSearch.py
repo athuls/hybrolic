@@ -1,18 +1,4 @@
 '''
-Created on Jun 17, 2011
-@author: Sai Panyam
-
-Credits
-Inspired by Clever Algorithms by Jason Brownlee
-www.cleveralgorithms.com
-'''
-'''
-Name
-Tabu Search, TS, Taboo Search
-
-Taxonomy
-Tabu Search is a Metaheuristic and a Global Optimization algorithm.
-
 Strategy
 The strategy is to constrain an embedded heuristic from returning to recently visited areas of the search space (cycling).
 It maintains a short term memory of recent moves and prevents future moves from undoing those changes. This strategy can be extended

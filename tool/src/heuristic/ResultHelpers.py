@@ -1,8 +1,3 @@
-'''
-Created on Jul 7, 2011
-
-@author: Sai
-'''
 class TSPResult(object):
     '''
     Class that takes a result from a search algorithm for TSP and prints

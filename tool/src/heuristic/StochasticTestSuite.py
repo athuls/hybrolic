@@ -1,8 +1,4 @@
 '''
-Created on Jun 17, 2011
-
-@author: Sai Panyam
-
 Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tests and functional tests of search
 '''
 import unittest
