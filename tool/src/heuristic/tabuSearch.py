@@ -15,7 +15,7 @@ Candidates for neighboring moves can be generated deterministically for the enti
 or the neighborhood can be stochastically sampled to a fixed size, trading off efficiency for accuracy.
 
 '''
-from .Utilities import constructInitialSolution, tourCost, stochasticTwoOptWithEdges
+from heuristic.utilities import constructInitialSolution, tourCost, stochasticTwoOptWithEdges
 
 # Function that returns a best candidate, sorting by cost
 def locateBestCandidate(candidates):
@@ -64,6 +64,7 @@ def search(points, maxIterations, maxTabu, maxCandidates):
         candidates = []
         for index in range(0,maxCandidates):
             candidates.append(generateCandidates(best, tabuList, points))
+        
         # Locate the best candidate
         # sort the list of candidates by cost
         # since it is an  involved sort, we write a function for getting the least cost candidate

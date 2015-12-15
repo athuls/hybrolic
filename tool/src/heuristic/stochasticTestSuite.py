@@ -2,7 +2,7 @@
 Unit tests that exercise the algorithms. It is a mixture of both real 'unit' tests and functional tests of search
 '''
 import unittest
-from . import ResultHelpers
+from heuristic import resultHelpers
 class SearchTests(unittest.TestCase):
     
     def setUp(self):
@@ -23,7 +23,7 @@ class SearchTests(unittest.TestCase):
         
     #@unittest.skip("Don't run FOR NOW!")          
     def testTabuSearch(self):
-        from .TabuSearch import search
+        from heuristic.tabuSearch import search
         # Problem Configuration
         # Use Berlin52 instance of TSPLIB
         # Algorithm Configuration
