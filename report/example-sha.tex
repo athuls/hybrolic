@@ -1,0 +1,29 @@
+\begin{figure}[h]
+  \begin{center}
+    \scalebox{0.7}{
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,semithick]
+      \tikzstyle{every state}=[fill=gray!20!white,minimum size=3em,rounded rectangle]
+      
+      \node[initial, initial where=below,state,fill=gray!30] at (0, 0) (m0) {$\begin{array}{c}
+          \dot{x_1} = 0 \\ \dot{x_2} = 0 \\ m_0 \end{array}$};
+      
+      \node[state, label=below:$1< x_2 < 3$] at (3.5, 2) (m1) {$\begin{array}{c}
+          \dot{x_1} = 2\\ \dot{x_2} = 2  \\ m_1 \end{array}$} ;
+      
+      \node[state, label=below:$2 \leq x_1 < 6$] at (3.5, -2) (m2) {$\begin{array}{c} \dot{x_1} = -2 \\ \dot{x_2} = -2 \\ m_2 \end{array}$} ;
+      
+      \node[state] at (7, 0) (m3) {$\begin{array}{c} \dot{x_1} = -1 \\ \dot{x_2} = -1  \\ m_3 \end{array}$} ;
+  
+      \path (m0) edge node {$x_1 < 0, a, \set{x_2}$} (m1);
+      \path (m0) edge node[] {$x_2 > 0, b$} (m2);
+      
+      \path (m2) edge node[] {$ x_1 < 22, c$} (m3);
+      \path (m1) edge node[] {$d$} (m3);
+   
+      \path (m3) edge [loop above] node[] {$e$} (m3);
+    \end{tikzpicture}
+  }
+\end{center}
+\label{fig:sha}
+  \caption{Singular Hybrid Automata with four modes and two variables.} 
+\end{figure}

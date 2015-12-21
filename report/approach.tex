@@ -1,34 +1,69 @@
-To begin with, we will model embedded systems using Singular Hybrid Automata (SHA), the reachability question for which is known to be undecidable even for 3 vartiables~\cite{HKPV98}. SHA can be described as a set of discrete states and a set of continuous variables. Additionally there is a function $f(s,x)$ which is a constant integer for every discrete state $s$ and continuous variable $x$, that denotes the rate of evolution of $x$ in state $s$. Moreover every state $s$ and discrete transition between any two such states are annotated using a set of linear constraints. The constraints are referred to as \emph{invariants} and \emph{guards} respectively. A sequence of pairs of the form ($s$,$t$) where $s$ is a discrete state and $t$ is positive constant denoting time spent in that state, describes a valid \emph{trace} if all guards and invariants are met throughout the sequence. We say that a state $q$ is reachable, if there is some initial value for the continuous variables and a finite trace $(s_0, t_0), (s_1, t_1),\ldots (s_k,t_k)$ exists such that $s_k = q$. 
+The key observation that will aid us in designing the
+testing framework is that eventhough the reachability problem asks
+for concrete values of time durations in any specific run,
+it suffices to only consider at the sequences of transitions taken and theremodes visited.
 
-\begin{figure}[h]
-  \begin{center}
-    \scalebox{0.7}{
-    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,semithick]
-      \tikzstyle{every state}=[fill=gray!20!white,minimum size=3em,rounded rectangle]
-      
-      \node[initial, initial where=below,state,fill=gray!30] at (0, 0) (m0) {$\begin{array}{c}
-          \dot{x_1} = 0 \\ \dot{x_2} = 0 \\ m_0 \end{array}$};
-      
-      \node[state, label=below:$1< x_2 < 3$] at (3.5, 2) (m1) {$\begin{array}{c}
-          \dot{x_1} = 2\\ \dot{x_2} = 2  \\ m_1 \end{array}$} ;
-      
-      \node[state, label=below:$2 \leq x_1 < 6$] at (3.5, -2) (m2) {$\begin{array}{c} \dot{x_1} = -2 \\ \dot{x_2} = -2 \\ m_2 \end{array}$} ;
-      
-      \node[state] at (7, 0) (m3) {$\begin{array}{c} \dot{x_1} = -1 \\ \dot{x_2} = -1  \\ m_3 \end{array}$} ;
-  
-      \path (m0) edge node {$x_1 < 0, a, \set{x_2}$} (m1);
-      \path (m0) edge node[] {$x_2 > 0, b$} (m2);
-      
-      \path (m2) edge node[] {$ x_1 < 22, c$} (m3);
-      \path (m1) edge node[] {$d$} (m3);
-   
-      \path (m3) edge [loop above] node[] {$e$} (m3);
-    \end{tikzpicture}
-  }
-\end{center}
-\label{fig:sha}
-  \caption{Singular Hybrid Automata with four modes and two variables.} 
-\end{figure}
+\subsection{Symbolic Run}
+A \emph{symbolic finite run} of an SHA $\Hh$ is a finite sequence 
+ \[
+ r = \seq{m_0, a_1, m_1, a_2, \ldots m_k}
+ \] 
+ such that $m_0 \in M_0$ and for all $0 \leq i < k$ we have
+ that there are valuations $\nu_i$ and $\nu_{i+1}$, and $t_{i+1} \geq 0$ such that
+ $((m_i, \nu_i), (t_{i+1}, a_{i+1}), (m_{i+1}, \nu_{i+1}))$ is a transition
+ of $\Hh$.
+
+A \emph{symbolic finite run} of an SHA $\Hh$ can be similarly defined.
+
+Now, given a finite sequence
+\[
+ r = \seq{m_0, a_1, m_1, a_2, \ldots m_k}
+ \] 
+it is possible to determine if $r$ is a symbolic finite run or not.
+
+This can be checked by solving a set of linear constraints as described in the following subsection.
+
+\subsection{Checking for Valid Symbolic Runs}
+ 
+Observe that for every (finite or infinite) run 
+\[
+  r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), \ldots}
+\]
+of a WSHA we have
+that $\varrho(m_i) \leq \varrho(m_j)$ for every $i \leq j$.
+We define the type $\Gamma(r)$ of a finite run 
+\[
+r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), \ldots, (m_k, \nu_k)}
+\]
+as a finite sequence of ranks (natural numbers) and actions  
+$\seq{n_0, b_1,  n_1,\ldots, b_p, n_p}$ defined inductively in the following manner: 
+\begin{eqnarray*}
+  \Gamma(r) = 
+\begin{cases}
+  \seq{\varrho(m_0)} & \text{ if $r = \seq{(m_0, \nu_0)}$}\\
+  \Gamma(r') \oplus (a, \varrho(m)) & \text{ if $r = r'::\seq{(t, a), (m, \nu)}$},
+\end{cases}
+\end{eqnarray*}  
+where $::$ is the cons operator that appends two sequences, while 
+for a sequence $\sigma = \seq{n_0, b_1, n_1, \ldots, b_p, n_p}$, $a \in \Sigma$, and $n \in
+\Nat$ we define $\sigma \oplus (a, n)$ to be equal to $\sigma$ if $n_p = n$ and
+$\seq{n_0, b_1, n_1, \ldots, n_p, a, n}$ otherwise.
+Intuitively, the type of a finite run gives the (non-duplicate) sequence of
+ranks of modes and actions appearing in the run, where action is stored only
+when a transition to a mode of higher rank happens. 
+We need to remember only these actions since transitions that stay in the modes
+of same rank do not reset the variables. 
+
+Since there are only finitely many ranks for a given WSHA, it follows that for
+every infinite run 
+\[
+r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), \ldots}
+\] there
+exists an index $i$ such that  for all $j \geq i$ we have that $\varrho(m_i) =
+\varrho(m_j)$. 
+With this intuition we define the type of an infinite run $r$ as the type of the
+finite prefix of $r$ till index $i$.
+Let $\Gamma_\Hh$ be the set of run types of a WSHA $\Hh$.
 
 Given initial values of continuous variables and a concrete trace, it is easy to check if it is a valid trace that reaches some state $q$. However coming up with concrete values for time durations in that trace is non-trivial because the possible values of $t_i$'s are uncountable. Therefore it makes sense to look at symbolic traces where $t_i$'s are symbolic variables. 
 

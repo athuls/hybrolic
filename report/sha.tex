@@ -1,2 +1,243 @@
-The framework of Hybrid automata, introduced by Alur, Courcourbetis, Henzinger, and Ho~\cite{ACH92}, provides a formal modeling and analysis environment to analyze the interaction between the discrete and the continuous parts of cyber-physical systems. Hybrid automata can be considered as generalization of finite state automata augmented with a finite set of real-valued variables whose dynamics in each state is governed by a system of ordinary differential equations. Moreover, the discrete transitions of hybrid automata are guarded by constraints over the values of these real-valued variables, and enable discontinuous jumps in the evolution of these variables. 
-In its full generality, the reachability question for Hybrid automata is undecidable. In fact the question remains undecidable for very simple subclasses of Hybrid automata, when the rate of evolution of variables are restricted to be constant integer values, and the constraints in the system are simple linear constraints.
+ 
+ In this section, we describe the syntax and semantics for singular hybrid automata.
+ Later we mention results about the rechability problems in SHA.
+ 
+ Most of the notations described in this report have been derived from~\cite{SMT14}. 
+ 
+ \subsection{Preliminaries}
+ 
+  Let $\Real$ be the set of real numbers.
+ Let $X$ be a finite set of real-valued variables.
+ A \emph{valuation} on $X$ is a function $\nu : X \to \Real$.
+ We assume an arbitrary but fixed ordering on the variables and write $x_i$
+ for the variable with order $i$. 
+ This allows us to treat a valuation $\nu$ as a point $(\nu(x_1), \nu(x_2),
+ \ldots, \nu(x_n)) \in \Real^{|X|}$ 
+ equipped  with the standard \emph{Euclidean norm} $\norm{\cdot}$. 
+ Abusing notations slightly, we use a valuation on $X$ and a point in
+ $\Real^{|X|}$ interchangeably. 
+ 
+ We denote points in this state space by $\px, \py$,  vectors by $\vr, \vv$, and 
+ the $i$-th coordinate of point $\px$ and vector $\vr$ by $\px(i)$ and $\vr(i)$,
+ respectively. 
+ We write $\vzero$ for a vector with all its coordinates equal to $0$; 
+ its dimension is often clear from the context.
+ The distance $\norm{\px, \py}$ between points $\px$ and $\py$ is defined as
+ $\norm{\px - \py}$. 
+ % For two vectors ${\vv_1, \vv_2 \in \Real^n}$, we write $\vv_1 \dotprod \vv_2$
+ % to denote their dot product defined as $\sum_{i=1}^n \vv_1(i)\cdot\vv_2(i)$.
+ %
+ % {\bf Boundedness and Interior.} 
+ We denote a {\em closed ball} of radius $d \in \Rplus$ centered at $\px$ as
+ $\ball{d}{\px} {=} \set{\py {\in} \Real^n \::\: \norm{\px,\py} \leq d}$.
+ We say that a set $S \subseteq \Real^n$ is {\em bounded} if there exists
+ $d \in \Rplus$ such that for all $\px, \py \in S$ we have
+ $\norm{\px,\py} \leq d$.
+ % The {\em interior} of a set $S$, $\interior(S)$, is the set of all points
+ % $\px \in S$ for which there exists $d > 0$ s.t. $\ball{d}{\px} \subseteq S$.
+ %
+ % {\bf Convexity.} A point $\px$ is a \emph{convex
+ %   combination} of a finite set of points $X = \set{\px_1, \px_2, \ldots, \px_k}$ if
+ % there are $\lambda_1, \lambda_2, \ldots, \lambda_k \in [0, 1]$ such that
+ % $\sum_{i=1}^{k} \lambda_i = 1$ and $\px = \sum_{i=1}^k \lambda_i \cdot \px_i$.
+ % The \emph{convex hull} of $X$ is then the set of all points
+ % that are convex combinations of points in $X$.
+ % We say that $S \subseteq \Real^n$ is {\em convex} iff for all
+ % $\px, \py \in S$ and all $\lambda \in [0,1]$ we have
+ % $\lambda \px + (1-\lambda) \py \in S$ and moreover,
+ % %We write $\rows{M}$ for the number of rows in a matrix $M$. Here, $\rows{A}=k$. 
+ % 
+ % A point $\px$ is a \emph{vertex} of a convex polytope $P$ if it is
+ % not a convex combination of two distinct (other than $\px$) points in $P$. 
+ % For a convex polytope $P$ we write $\Vtx{P}$ for the finite set of points that
+ % correspond to the vertices of $P$.  
+ % Each point in $P$ can be written as a convex combination of the points in
+ % $\Vtx{P}$, or in other words, $P$ is the \emph{convex hull} of $\Vtx{P}$.
+ 
+ %{\bf Constraints.}
+ We define a constraint over a set $X$ as a subset of $\Real^{|X|}$.
+ We say that a constraint is \emph{polyhedral} if it is defined as the conjunction
+ of a finite set of linear constraints of the form 
+ \[
+ a_1 x_1 + \dots + a_n x_n \bowtie k,
+ \]
+ where $k \in \Int$, for all $1 \leq i \leq n$ we have that $a_i \in \Real, x_i
+ {\in} X$, and $\bowtie \in \{<,\leq, =, >, \geq\}$.   
+ Every polyhedral constraints can be written in the standard form $A\px \leq
+ \vb$ for some matrix $A$ of size $k \times n$ and a vector $\vb \in \Real^k$.
+ We call a bounded polyhedral constraint  a \emph{convex polytope}.
+ %We say that a constraint is rectangular if it can defined as a conjunction of a
+ %finite set of constraints of the form $ x \bowtie k$ where $x \in X$, $k \in
+ %\Nat$, and $\bowtie \in \set{<,\leq, =, >,\geq}$.
+ For a constraint $G$, we write $\sem{G}$ for the set of valuations in
+ $\Real^{|X|}$ satisfying the constraint $G$.  
+ We write $\top$ ( resp., $\bot$) for the special constraint that is true
+ (resp., false) in all the valuations, i.e. $\sem{\top} = \Real^{|X|}$ 
+(resp., $\sem{\bot} = \emptyset$). 
+ We write $\poly(X)$ for the set of polyhedral constraints over $X$ including
+ $\top$ and $\bot$.  
+ 
+\subsection{Syntax of Singular Hybrid Automata}
+
+Singular hybrid automata can be considered as extensions of finite
+state-transition graphs with a finite set of real-valued variables that grow
+with state-dependent constant-rates. 
+The transitions of the automata are guarded by predicates on the valuations of
+the variables, and the syntax allows discrete update of the value of the
+variables. 
+%Although the result presented in the paper extend to polyhedral guard and
+%nondeterministic reset to polyhedral sets, for the sake of ease of presentation
+%we restrict our attention to rectangular guards and discrete update that is
+%restricted to resetting the variables to zero. 
+%
+ \begin{definition}[Singular Hybrid Automata]
+   A singular hybrid automaton is a tuple 
+   $\Hh = (M, M_0, \Sigma, X, \Delta, I, F)$ where 
+  \begin{itemize}
+  \item 
+    $M$ is a finite set of control \emph{modes} including a distinguished
+    initial set of control modes $M_0 \subseteq M$, 
+  \item 
+    $\Sigma$ is a finite set of \emph{actions},
+  \item 
+    $X$ is an (ordered) set of \emph{variables}, 
+  \item
+    $\Delta \subseteq M \times \poly(X) \times \Sigma \times 2^{X}
+    \times M$ is the \emph{transition relation}, 
+  \item 
+    $I: M \to \poly(X)$  is the mode-invariant function, and
+    \item 
+    $F: M \to \Rat^{|X|}$ is the mode-dependent \emph{flow function}
+    characterizing the rate of each variable in each mode.
+  \end{itemize}
+For computation purposes, we assume that all real numbers are rational and
+represented in the standard way by writing down the numerator and denominator
+in binary.
+\end{definition}
+
+For all $\delta = (m, G, a, R, m') \in \Delta$ we say that $\delta$ is a
+\emph{transition} between the modes $m$ and $m'$ with \emph{guard} $G \in
+\poly(X)$ and reset set $R \in 2^{|X|}$. 
+For the sake of notational convenience, we assume that an action
+$a \in \Sigma$ uniquely determines a transition $(m, G, a, R, m')$, and we write
+$G(a)$ and $R(a)$ for the guard and the reset set corresponding to the action $a
+\in \Sigma$.
+This can be assumed without loss of generality, since, in this paper, we do not
+study language-theoretic properties of an SHA, and assume that the
+non-determinism is resolved by the controller. 
+
+\input{example-sha}
+
+\begin{example}[Singular Hybrid Automata]
+  As an example of a SHA consider the automaton shown in Figure~\ref{fig:sha}
+  with modes $\set{m_0, m_1, m_2, m_3}$ and variable set $\set{x_1, x_2}$. 
+  We represent modes using rounded rectangles and we write the invariant of a
+  mode below the rectangle for the mode. 
+  We show a transition  $(m, G, a, R, m')$ as an arrow between modes $m$ and
+  $m'$ labeled by triplet $G, a, R$. 
+  If we omit the guard of a transition or the invariant of a mode, it is
+  implicitly assumed to be $\top$.
+  Similarly, if we omit the reset set for a transition, it is assumed to be an
+  empty set.
+  To avoid confusion we write the flow of the variables as separate rate for
+  each variable using dot notation to depict the first-order derivative. 
+\end{example}
+
+\subsection{Semantics of Singular Hybrid Automata}
+
+A \emph{configuration} of a SHA $\Hh$ is a pair $(m, \nu) \in M \times
+\Real^{|X|}$ consisting of a control  mode $m$ and a variable valuation $\nu {\in}
+\Real^{|X|}$ such that that $\nu$ satisfies the invariant $I(m)$ of the mode $m$,
+i.e. $\nu \in \sem{I(m)}$.   
+We say that the transition $\delta = (m, G, a, R, m')$ is \emph{enabled} in a configuration $(m,
+\nu)$ when guard $G \in \poly(X)$ is satisfied by the valuation, i.e. $ \nu \in
+\sem{G}$.
+Moreover, the transition $\delta$ resets the variables in $R \in 2^{|X|}$ to $0$.   
+We write $\nu[R{:=}0]$ to denote the valuation resulting from
+substituting in valuation $\nu$ the value for the variables in the set $R$ to
+$0$, formally  
+\[
+\nu[R{:=}0](x) = 
+	\begin{cases}
+   		0 & \text{ if} x \in R\\
+   		\nu(x) & \text{ otherwise.}
+ 	\end{cases}
+ \]
+ 
+ A \emph{timed action} of a SHA is the tuple $(t, a) \in \Rplus \times \Sigma$
+ consisting of a time delay and discrete action. 
+ While the system dwells in a mode $m \in M$ the valuation of the system
+ flows linearly according to the rate function $F(m)$, i.e.  after spending
+ $t$ time units in mode $m$ from a valuation $\nu$ the valuation of the variables
+ will be $\nu + t \cdot F(m)$.
+
+ We say that $((m, \nu), (t, a), (m', \nu'))$ is a transition of a SHA $\Hh$
+ and we write $(m, \nu) \xrightarrow{t}_{a} (m', \nu')$ 
+ if $(m, \nu)$ and $(m', \nu')$ are valid configurations of the SHA $\Hh$, and
+ there is a transition  $\delta = (m, G, a, R, m') \in \Delta$ such that: 
+ \begin{itemize}
+ \item  
+   all the valuations resulting from dwelling in mode $m$ for time $t$ from the
+   valuation $\nu$ satisfy the invariant of the mode $m$, i.e. 
+   $(\nu + F(m) \cdot \tau) \in \sem{I(m)}$ for all $\tau \in [0, t]$ 
+   (observe that due to convexity of the invariant set we only need to check
+   that  $(\nu + F(m) \cdot t) \in  \sem{I(m)}$); 
+ \item
+   The valuation reached after waiting for $t$ time-units satisfy the
+   constraint $G$ (called the  guard of the transition $\delta$), i.e. 
+   $(\nu + F(m) \cdot t) \in \sem{G}$, and
+ \item
+   $\nu' = (\nu + F(m)\cdot t)[R:=0]$. 
+ \end{itemize}
+
+ A \emph{finite run} of an SHA $\Hh$ is a finite sequence 
+ \[
+ r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), (t_2, a_2), \ldots, (m_k, \nu_k)}
+ \] 
+ such that $m_0 \in M_0$ and for all $0 \leq i < k$ we have
+ that $((m_i, \nu_i), (t_{i+1}, a_{i+1}), (m_{i+1}, \nu_{i+1}))$ is a transition
+ of $\Hh$.
+ For such a run $r$ we say that $\nu_0$ is the \emph{starting valuation}, while
+ $\nu_k$ is the \emph{terminal valuation}. 
+ An \emph{infinite run} of an SHA $\Hh$ is similarly defined to be an infinite
+ sequence 
+ \[
+ r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1), (t_2, a_2), \ldots}
+ \] 
+ such that $((m_i, \nu_i), (t_{i+1}, a_{i+1}), (m_{i+1}, \nu_{i+1}))$ is a
+ transition of the SHA $\Hh$ for all $i \geq 0$.
+ We say that $\nu_0$ is the starting configuration of the run. 
+ We say that an infinite run $r = \seq{(m_0, \nu_0), (t_1, a_1), (m_1, \nu_1),
+   \ldots}$  is Zeno if $\sum_{i=1}^{\infty} t_i < \infty$. 
+ Zeno runs are physically unrealizable since they requires infinitely many
+ mode-switches within a finite amount of time.
+
+\subsection{Reachability Problem} 
+ We next define the reachability problem for SHA, which is a fundamental problem
+ for this model.
+
+ \begin{definition}[Reachability Problem] Given a singular hybrid automaton
+   $\Hh{=} (M, M_0, \Sigma, X, \Delta, I, F)$, a starting valuation $\nu \in
+   \Real^{|X|}$, and a target polytope $\Tt \subseteq \Real^{X}$, the
+   reachability problem, $\Reach(\Hh, \nu,\Tt)$, is to decide whether there
+   exists a finite run from $\nu_0$ to some valuation $\nu' \in \Tt$. 
+ \end{definition}
+
+ The termination~\cite{Min67} problem for two-counter Minsky machines is known to be undecidable.
+ By encoding the two counters as two vairables, and using another variable to
+ do additional book-keeping, the termination problem for Minsky machines can be reduced
+ to reachability problem for singular hybrid automata. 
+ 
+ Hence the following result is immediate.
+ \begin{theorem}[Undecidability~\cite{HKPV98,AMP95,AM98}]
+   \label{thm:SHA-undec-reach}
+   The reachability problem is undecidable for singular hybrid automata with three or more variables. 
+ \end{theorem}
+ 
+We observe that the reachability problem for SHA with one variable remains decidable,
+and can be solved in linear time. 
+\begin{theorem}[Decidability of 1 variable case~\cite{SMT14}]
+  \label{thm:dec-SHA-one-var}
+  The reachability and the schedulability problems are $\NLC$ for singular
+  hybrid automata with single variable. 
+\end{theorem}

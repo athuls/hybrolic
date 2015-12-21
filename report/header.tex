@@ -1,10 +1,14 @@
 
 \usepackage[utf8]{inputenc}
-\usepackage[top=0.5in, bottom=0.5in, left=1in, right=1in]{geometry}
+%\usepackage[top=0.5in, bottom=0.5in, left=1in, right=1in]{geometry}
 
 \usepackage{natbib}
 \usepackage{graphicx}
 
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amsmath} 
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{tikz}
 \usepackage{pgf}
@@ -12,6 +16,8 @@
 \usepackage{pgffor}
 \usepackage{pgflibrarysnakes}
 \usepackage{todonotes}
+
+
 \usetikzlibrary{fit} % fitting shapes to coordinates
 \usetikzlibrary{backgrounds} % drawing the background after the foreground
 \usetikzlibrary{patterns}
@@ -28,5 +34,123 @@
 \tikzstyle{trans}=[-latex, rounded corners]
 \tikzstyle{trans2}=[-latex, dashed, rounded corners]
 
-\newcommand{\set}[1]{\left\{ #1 \right\}}
+
 \newcommand{\tool}{\texttt{Hybrolic}}
+
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\Set}[1]{\big\{ #1 \big\}}
+\newcommand{\seq}[1]{\langle #1 \rangle}
+\newcommand{\Nat}{\mathbb N}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Real}{\R}
+\newcommand{\Int}{\mathbb Z}
+\newcommand{\Rat}{\mathbb Q}
+\newcommand{\Rplus}{\R_{\geq 0}}
+\newcommand{\Zpos}{\Int_{\geq 0}}
+
+
+\newcommand{\Reach}{\textsc{Reach}}
+\newcommand{\Sched}{\textsc{Sched}}
+\newcommand{\LTLMC}{\textsc{LTL-MC}}
+\newcommand{\PSPACEC}{\textsc{Pspace-Complete}}
+\newcommand{\PSPACE}{\textsc{Pspace}}
+\newcommand{\EXPTIMEC}{\textsc{Exptime-Complete}}
+\newcommand{\EXPTIME}{\textsc{Exptime}}
+\newcommand{\NPC}{\textsc{NP-Complete}}
+\newcommand{\NLC}{\textsc{NL-Complete}}
+\newcommand{\NLOGS}{\textsc{Nlogspace}}
+\newcommand{\UNDEC}{\textsc{Undecidable}}
+\newcommand{\EXPTIMEH}{\textsc{Exptime-Hard}}
+\newcommand{\PTIME}{\textsc{Ptime}}
+\newcommand{\PTIMEC}{\textsc{Ptime-Complete}}
+
+
+\newcommand{\ptime}{{\sc P}\xspace}
+\newcommand{\E}{{\bf E}}
+\newcommand{\A}{{\bf A}}
+%\DeclareMathOperator{\interior}{int}
+\newcommand{\norm}[1]{\|#1\|}
+
+\newcommand{\point}[1]{{\overline{#1}}}
+\newcommand{\bbQ}{\mathbb{Q}}
+%\DeclareMathOperator*{\opt}{opt}
+\newcommand{\modenum}{|M|}
+\newcommand{\ps}{\point{s}}
+\newcommand{\pt}{\point{t}}
+\newcommand{\px}{\point{x}}
+\newcommand{\py}{\point{y}}
+\newcommand{\pz}{\point{z}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vw}{\vec{w}}
+\newcommand{\vb}{\vec{b}}
+\newcommand{\vf}{\vec{f}}
+\newcommand{\vt}{\vec{t}}
+\newcommand{\vr}{\vec{r}}
+\newcommand{\vp}{\vec{p}}
+\newcommand{\vn}{\vec{n}}
+\newcommand{\pc}{\point{c}}
+
+\newcommand{\vzero}{\vec{0}}
+\newcommand{\Rmax}{{R_{\textrm{max}}}}
+\newcommand{\Rmin}{{R_{\textrm{min}}}}
+\newcommand{\dmax}{d_{\textrm{max}}}
+\newcommand{\dint}{d}
+
+\newcommand{\facet}[2]{#1|_{#2}}
+\newcommand{\rows}[1]{\mathit{rows}(#1)}
+\newcommand{\ball}[2]{B_{#1}(#2)}
+
+\newcommand{\inv}{\mathit{Inv}}
+\newcommand{\dia}{\mathit{dia}}
+\newcommand{\act}{\mathit{Act}}
+\newcommand{\enb}{\mathit{Enb}}
+\newcommand{\reset}{\mathit{Rst}}
+\newcommand{\sem}[1]{ [ \! [ {#1}  ]  \! ]} % semantic brackets
+
+\newcommand{\Aa}{\mathcal{A}}
+\newcommand{\Dd}{\mathcal{D}}
+\newcommand{\lval}{\text{\it lval}}
+\newcommand{\uval}{\text{\it uval}}
+\newcommand{\Ee}{\mathcal{E}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Pp}{\mathcal{P}}
+\newcommand{\Gg}{\mathcal{G}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Ff}{\mathcal{F}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Rr}{\mathcal{R}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\Vv}{\mathcal{V}}
+\newcommand{\hTt}{\hat{\mathcal{T}}}
+\newcommand{\sTt}{\sem{\mathcal{T}}}
+\newcommand{\sGamma}{\sem{\Gamma}}
+\newcommand{\hS}{\hat{S}}
+\newcommand{\hA}{\hat{A}}
+\newcommand{\hT}{\hat{T}}
+
+\newcommand{\rect}{\textrm{rect}}
+\newcommand{\poly}{\textrm{poly}}
+\newcommand{\sing}{\textrm{sing}}
+\newcommand{\oct}{\textrm{oct}}
+\newcommand{\pred}{\textrm{pred}}
+
+\newcommand{\PROB}{\text{\it Prob}}
+\newcommand{\eE}{\mathbb{E}}
+\newcommand{\bB}{\mathbb{B}}
+\newcommand{\iI}{\mathbb{I}}
+\newcommand{\tT}{\mathbb{T}}
+
+\newcommand{\Trace}{\mathsf{\it Trace}}
+
+\newcommand{\until}{\:\mathcal{U}}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
