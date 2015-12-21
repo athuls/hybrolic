@@ -39,12 +39,12 @@ def isTabu(perm, tabuList):
 
 def generateCandidates(best, tabuList, points):
     permutation, edges, result = None, None, {}
-    while permutation == None or isTabu(best["permutation"], tabuList):
-        permutation, edges = stochasticTwoOptWithEdges(best["permutation"])
+    while permutation == None or isTabu(best["loopIter"], tabuList):
+        permutation, edges = stochasticTwoOptWithEdges(best["loopIter"])
     candidate ={}    
-    candidate["permutation"] = permutation
+    candidate["loopIter"] = permutation
     '''Call constraint set solver to get distance d between 2 polyhedra'''
-    candidate["cost"] = tourCost(candidate["permutation"])
+    candidate["cost"] = tourCost(candidate["loopIter"])
     result["candidate"] = candidate
     result["edges"] = edges
     return result
@@ -53,10 +53,10 @@ def generateCandidates(best, tabuList, points):
 def search(points, maxIterations, maxTabu, maxCandidates):
     # construct a random tour
     best ={}
-    best["permutation"] = constructInitialSolution(points)
+    best["loopIter"] = constructInitialSolution(points)
     
     '''Call constraint set solver to get distance d between 2 polyhedra'''
-    best["cost"] = tourCost(best["permutation"])
+    best["cost"] = tourCost(best["loopIter"])
     tabuList =[]
     while maxIterations>0:
         # Generate candidates using stocahstic 2-opt near current best candidate

@@ -58,5 +58,5 @@ def stochasticTwoOptWithEdges(perm):
 
 # Function that generates initial solution by picking random value of n
 def constructInitialSolution(initPerm):
-    initSolution = random.randrange(initPerm[0],initPerm[1])
+    initSolution = random.choice(initPerm)
     return initSolution
