@@ -12,11 +12,12 @@ class QP:
     classdocs
     '''
     
-    def __init__(self, clist=None):
+    def __init__(self, num_vars, clist=None):
         '''
         Constructor
         '''
         self.constraintList=[]
+        self.num_vars = num_vars
         if not(clist is None):
             self.add_constraint_list(clist)
         
@@ -45,13 +46,14 @@ class QP:
     def __repr__(self):
         return self.__str__()
 
-    def solve(self,objective):
+    def solve(self):
         '''Return solution of LP'''
         '''optimizing dummy variable for LP'''
-        c = matrix(objective)
+        PObjective = 2*matrix([ [1., 0., -1., 0.], [0., 1., 0., -1.], [-1., 0., 1., 0.], [0., -1., 0., 1.] ])
+        qObjective = matrix([0., 0., 0., 0.])
         [A,b] = self.get_LP()
         AMatrix = matrix(A)
-        AMatrix = AMatrix.trans()
-        bMatrix = matrix(b).trans()
-        sol = solvers.lp(c, AMatrix, bMatrix)
+        GConstraints = AMatrix.trans()
+        hConstraints = matrix(b).trans()
+        sol = solvers.qp(PObjective, qObjective, GConstraints, hConstraints)
         return sol
