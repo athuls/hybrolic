@@ -1,4 +1,64 @@
+Cyberphysical systems are engineered systems that are built from, 
+and depend upon, the seamless integration of computational algorithms and physical components.
+These systems have made entered into every aspect of our life, and have become an
+indenspensible part of modern life.
+Indeed, the applications of these systems are widespread.
+Example include engineered pacemakers and robotic arms in healthcare, autopilots in
+passenger aircrafts and spacecrafts, controllers for chemical plants,
+self driving cars, railways systems, critical systems like
+nuclear reactors. Clearly the list is endless.
 
-Hybrid automata provide a generic framework for modeling embedded systems with continuous and dense variables, such as controllers for plants, reactors or for robot motion planning.
-It is often meaningful to ask questions such as whether a given hybrid system reaches some \emph{error} state. For safety critical systems such as nuclear power plants, it becomes quite important to verify that the system does not crash. There is a rich literature on verification of hybrid systems to tackle this problem. However, it turns out that the general model of Hybrid automata is quite expressive and not surprisingly, very simple questions like reachability are undecidable, and heuristics based techniques for answering such verification questions are not known to scale well.
-As part of this project, we intend to develop systematic techniques for answering questions such as reachability of some state in hybrid systems, using concepts from automated test input generation.
+  The framework of Hybrid automata---introduced by Alur, Courcourbetis,
+  Henzinger, and Ho---provides a formal modeling and analysis environment to
+  analyze the interaction between the discrete and the continuous parts of
+  cyber-physical systems. 
+  Hybrid automata can be considered as generalizations of finite state automata
+  augmented with a finite set of real-valued variables whose dynamics in each
+  state is governed by a system of ordinary differential equations. 
+  Moreover, the discrete transitions of hybrid automata are guarded by
+  constraints over the values of these real-valued variables, and enable
+  discontinuous jumps in the evolution of these variables.
+  
+
+
+Given the immense integration of these systems in modern applicances,
+it is natural to ask questions such as whether a given system is free from erros.
+Concretely, if a given hybrid system reaches some \emph{error} state, it can lead 
+to loss of lives and property. For safety critical systems such as nuclear power plants,
+it becomes quite important to verify that the system does not crash. 
+
+As one can expect, there is a rich literature on verification
+of hybrid systems to tackle this problem. 
+However, it turns out that the  general model of Hybrid automata is quite expressive
+and not surprisingly, very simple questions like reachability are undecidable. 
+Decidable subclasses for hybrid automata do exist, but most of them rely on a finite bisimulation
+to check for reachability, and do not scale very well.
+
+As part of this project, we intend to develop systematic heurisitcs 
+for answering  questions such as reachability of some state 
+in hybrid systems, using concepts from automated test input generation.
+The main advantage for using these techniques is scalability, that is, from
+the literature, these techniques look promising, and seem to scale for decently large systems.
+Another advantage is that such techniques also give information about
+concrete input values that lead the system to a target state.
+
+We will use the model of Singular Hybrid Automata (or \emph{Multi rate automata}
+as it was originally called), introduced by Alur et. al., 
+to demonstrate the applicability of our approach. 
+While the model is quite simple to describe, the reachability problem is
+easily undecidable for very simple subclasses (namely when the number of continuous variables
+exceed 2).
+
+%%[TODO}: Related Work
+
+The rest of the document is organized as follows.
+Section~\ref{sec:sha} describes the details for Singular Hybrid Automata
+(referred to as SHA from now on).
+Section~\ref{sec:concolic} briefly introduces the framework for
+concolic testing and concolic walk.
+Section~\ref{sec:approach} descibes our approach, and specific details about
+the heuristics we use.
+Section~\ref{sec:implementation} describes implementation details about our tool \tool.
+%% Section~\ref{sec:experiment} describes the experiments performed with \tool .
+The report concludes with Section~\ref{sec:conclusion} .
+

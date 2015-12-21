@@ -1,11 +1,11 @@
-\documentclass{article}
+
 \usepackage[utf8]{inputenc}
 \usepackage[top=0.5in, bottom=0.5in, left=1in, right=1in]{geometry}
 
 \usepackage{natbib}
 \usepackage{graphicx}
 
-
+\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{tikz}
 \usepackage{pgf}
 \usepackage{pgflibraryarrows}
@@ -20,9 +20,13 @@
 \usepgflibrary{shapes}
 \usetikzlibrary{snakes,automata}
 \usetikzlibrary{shadows}
-\usepackage[usenames,dvipsnames]{xcolor}
+
+
 %\tikzstyle{nloc}=[draw, text badly centered, rectangle, rounded corners, minimum size=2em,inner sep=0.5em]
 \tikzstyle{background}=[rectangle,fill=gray!10, inner sep=0.1cm, rounded corners=0mm]
 \tikzstyle{loc}=[draw,rectangle,minimum size=1.4em,inner sep=0em]
 \tikzstyle{trans}=[-latex, rounded corners]
 \tikzstyle{trans2}=[-latex, dashed, rounded corners]
+
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\tool}{\texttt{Hybrolic}}
